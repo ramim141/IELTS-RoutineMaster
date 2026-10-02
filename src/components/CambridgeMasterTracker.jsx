@@ -190,29 +190,29 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 bg-slate-900/50 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-5xl bg-white border border-slate-200 rounded-2xl shadow-2xl text-slate-900 max-h-[92vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 bg-slate-900/60 dark:bg-black/80 backdrop-blur-sm animate-fadeIn">
+      <div className="relative w-full max-w-5xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl text-slate-900 dark:text-slate-100 max-h-[92vh] flex flex-col overflow-hidden">
         
         {/* Minimal Toast Notification */}
         {notification && (
-          <div className="absolute top-3.5 right-14 z-40 px-3.5 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-medium font-bengali shadow-lg flex items-center gap-1.5 animate-fadeIn">
+          <div className="absolute top-3.5 right-14 z-40 px-3.5 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-800 text-white text-xs font-medium font-bengali shadow-lg flex items-center gap-1.5 animate-fadeIn border border-slate-700">
             <Sparkles className="w-3 h-3 text-indigo-400" />
             <span>{notification}</span>
           </div>
         )}
 
         {/* Minimal Header */}
-        <div className="px-5 sm:px-6 py-3.5 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
+        <div className="px-5 sm:px-6 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-white dark:bg-slate-900">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center">
               <BookOpen className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight font-bengali">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight font-bengali">
                   Cambridge Master Tracker
                 </h3>
-                <span className="text-[11px] font-mono text-slate-500 font-medium hidden sm:inline">
+                <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 font-medium hidden sm:inline">
                   (Books 10 - 19)
                 </span>
               </div>
@@ -221,14 +221,14 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
 
           <div className="flex items-center gap-2.5">
             {/* Minimal Overall Progress Badge */}
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs font-mono text-slate-600">
-              <span>Total: <strong className="text-slate-900 font-semibold">{totalCompletedUnits}/160</strong></span>
-              <span className="text-indigo-600 font-bold">({overallPercentage}%)</span>
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-600 dark:text-slate-300">
+              <span>Total: <strong className="text-slate-900 dark:text-slate-100 font-semibold">{totalCompletedUnits}/160</strong></span>
+              <span className="text-indigo-600 dark:text-indigo-400 font-bold">({overallPercentage}%)</span>
             </div>
 
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               title="Close"
             >
               <X className="w-4 h-4" />
@@ -237,7 +237,7 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
         </div>
 
         {/* Minimal Clean Toolbar with Dropdowns */}
-        <div className="px-5 sm:px-6 py-2.5 bg-slate-50/70 border-b border-slate-200/70 shrink-0">
+        <div className="px-5 sm:px-6 py-2.5 bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200/70 dark:border-slate-800 shrink-0">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             
             {/* Left: Clean Minimal Dropdowns */}
@@ -248,7 +248,7 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                 <button
                   onClick={handlePrevBook}
                   disabled={CAMBRIDGE_BOOKS.indexOf(selectedBook) === CAMBRIDGE_BOOKS.length - 1}
-                  className="p-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 transition-all shadow-xs"
+                  className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 dark:border-slate-700 transition-all shadow-xs"
                   title="Previous Book"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
@@ -258,12 +258,12 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                   <select
                     value={selectedBook}
                     onChange={(e) => setSelectedBook(e.target.value)}
-                    className="appearance-none bg-white hover:bg-slate-50 text-slate-800 font-mono font-semibold text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer shadow-xs"
+                    className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 font-mono font-semibold text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer shadow-xs"
                   >
                     {CAMBRIDGE_BOOKS.map((book) => {
                       const stats = getBookProgress(book);
                       return (
-                        <option key={book} value={book}>
+                        <option key={book} value={book} className="dark:bg-slate-800 dark:text-slate-200">
                           {book} ({stats.done}/16)
                         </option>
                       );
@@ -275,7 +275,7 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                 <button
                   onClick={handleNextBook}
                   disabled={CAMBRIDGE_BOOKS.indexOf(selectedBook) === 0}
-                  className="p-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 transition-all shadow-xs"
+                  className="p-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 dark:border-slate-700 transition-all shadow-xs"
                   title="Next Book"
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -287,13 +287,13 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                 <select
                   value={selectedModuleFilter}
                   onChange={(e) => setSelectedModuleFilter(e.target.value)}
-                  className="appearance-none bg-white hover:bg-slate-50 text-slate-800 font-mono font-medium text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer shadow-xs"
+                  className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 font-mono font-medium text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer shadow-xs"
                 >
-                  <option value="All">All Modules (160)</option>
-                  <option value="Listening">Listening ({getModuleGlobalStats('Listening').done}/40)</option>
-                  <option value="Reading">Reading ({getModuleGlobalStats('Reading').done}/40)</option>
-                  <option value="Writing">Writing ({getModuleGlobalStats('Writing').done}/40)</option>
-                  <option value="Speaking">Speaking ({getModuleGlobalStats('Speaking').done}/40)</option>
+                  <option value="All" className="dark:bg-slate-800 dark:text-slate-200">All Modules (160)</option>
+                  <option value="Listening" className="dark:bg-slate-800 dark:text-slate-200">Listening ({getModuleGlobalStats('Listening').done}/40)</option>
+                  <option value="Reading" className="dark:bg-slate-800 dark:text-slate-200">Reading ({getModuleGlobalStats('Reading').done}/40)</option>
+                  <option value="Writing" className="dark:bg-slate-800 dark:text-slate-200">Writing ({getModuleGlobalStats('Writing').done}/40)</option>
+                  <option value="Speaking" className="dark:bg-slate-800 dark:text-slate-200">Speaking ({getModuleGlobalStats('Speaking').done}/40)</option>
                 </select>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
@@ -302,12 +302,12 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
 
             {/* Right: Clean Minimal Selected Book Progress */}
             <div className="flex items-center gap-2.5 self-end sm:self-auto">
-              <span className="text-xs font-mono text-slate-600">
-                <strong className="text-slate-900">{selectedBook}:</strong> {currentBookStats.done}/16 Done ({currentBookStats.pct}%)
+              <span className="text-xs font-mono text-slate-600 dark:text-slate-300">
+                <strong className="text-slate-900 dark:text-slate-100">{selectedBook}:</strong> {currentBookStats.done}/16 Done ({currentBookStats.pct}%)
               </span>
-              <div className="w-20 sm:w-24 bg-slate-200 h-1.5 rounded-full overflow-hidden">
+              <div className="w-20 sm:w-24 bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
                 <div 
-                  className="bg-indigo-600 h-full rounded-full transition-all duration-300" 
+                  className="bg-indigo-600 dark:bg-indigo-500 h-full rounded-full transition-all duration-300" 
                   style={{ width: `${currentBookStats.pct}%` }}
                 />
               </div>
@@ -317,7 +317,7 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
         </div>
 
         {/* Clean Tests Grid View */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-white">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-white dark:bg-slate-900">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             {TESTS.map((testName) => {
               const testModulesDone = MODULES.filter(m => trackerData[`${selectedBook}_${testName}_${m}`]?.done).length;
@@ -328,21 +328,21 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                   key={testName}
                   className={`p-3.5 rounded-xl border transition-all ${
                     isTestFullyDone
-                      ? 'bg-slate-50/80 border-slate-300/80'
-                      : 'bg-white border-slate-200 hover:border-slate-300'
+                      ? 'bg-slate-50/80 dark:bg-slate-800/80 border-slate-300/80 dark:border-slate-700'
+                      : 'bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                   }`}
                 >
                   {/* Test Header */}
-                  <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-100">
+                  <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-100 dark:border-slate-700/80">
                     <div className="flex items-center gap-2">
                       <span className={`text-xs font-bold font-mono px-2 py-0.5 rounded-md ${
                         isTestFullyDone 
-                          ? 'bg-slate-900 text-white' 
-                          : 'bg-slate-100 text-slate-700'
+                          ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900' 
+                          : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
                       }`}>
                         {testName}
                       </span>
-                      <span className="text-xs font-medium text-slate-500 font-mono">
+                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400 font-mono">
                         {selectedBook}
                       </span>
                     </div>
@@ -350,12 +350,12 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleToggleWholeTest(selectedBook, testName)}
-                        className="text-[11px] font-medium text-slate-500 hover:text-slate-900 hover:underline px-1 transition-colors"
+                        className="text-[11px] font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:underline px-1 transition-colors"
                       >
                         {isTestFullyDone ? 'Unmark all' : 'Mark all done'}
                       </button>
                       
-                      <span className="text-[11px] font-mono font-medium text-slate-400">
+                      <span className="text-[11px] font-mono font-medium text-slate-400 dark:text-slate-500">
                         {testModulesDone}/4
                       </span>
                     </div>
@@ -376,8 +376,8 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                             key={mod}
                             className={`px-2.5 py-1.5 rounded-lg border flex items-center justify-between gap-2.5 transition-all ${
                               unit.done 
-                                ? 'bg-slate-50 border-slate-200 text-slate-900' 
-                                : 'bg-white border-slate-100 hover:border-slate-200 text-slate-600'
+                                ? 'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100' 
+                                : 'bg-white dark:bg-slate-850 dark:bg-slate-800/30 border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 text-slate-600 dark:text-slate-300'
                             }`}
                           >
                             {/* Checkbox & Name */}
@@ -387,15 +387,15 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                             >
                               <div className={`w-4 h-4 rounded flex items-center justify-center transition-all ${
                                 unit.done 
-                                  ? 'bg-slate-900 text-white' 
-                                  : 'border border-slate-300 hover:border-slate-400 bg-white'
+                                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900' 
+                                  : 'border border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 bg-white dark:bg-slate-800'
                               }`}>
                                 {unit.done && <Check className="w-3 h-3 stroke-[3]" />}
                               </div>
 
                               <div className="flex items-center gap-1.5">
-                                <IconComp className="w-3 h-3 text-slate-400" />
-                                <span className={`text-xs font-mono ${unit.done ? 'font-semibold text-slate-900' : 'font-normal text-slate-700'}`}>
+                                <IconComp className="w-3 h-3 text-slate-400 dark:text-slate-400" />
+                                <span className={`text-xs font-mono ${unit.done ? 'font-semibold text-slate-900 dark:text-slate-100' : 'font-normal text-slate-700 dark:text-slate-300'}`}>
                                   {mod}
                                 </span>
                               </div>
@@ -408,10 +408,10 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                                 placeholder={meta.placeholder}
                                 value={unit.score || ''}
                                 onChange={(e) => handleScoreChange(selectedBook, testName, mod, e.target.value)}
-                                className={`w-16 bg-white border rounded px-1.5 py-0.5 text-[11px] font-mono text-center focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all ${
+                                className={`w-16 bg-white dark:bg-slate-900 border rounded px-1.5 py-0.5 text-[11px] font-mono text-center focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all ${
                                   unit.score 
-                                    ? 'border-indigo-300 font-semibold text-indigo-900' 
-                                    : 'border-slate-200 text-slate-700 placeholder:text-slate-300'
+                                    ? 'border-indigo-300 dark:border-indigo-700 font-semibold text-indigo-900 dark:text-indigo-300' 
+                                    : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 placeholder:text-slate-300 dark:placeholder:text-slate-600'
                                 }`}
                               />
                             </div>
@@ -426,14 +426,14 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
         </div>
 
         {/* Minimal Footer */}
-        <div className="px-5 sm:px-6 py-3 border-t border-slate-100 flex items-center justify-between shrink-0 bg-slate-50/50">
-          <span className="text-[11px] text-slate-400 font-bengali">
+        <div className="px-5 sm:px-6 py-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-slate-50/50 dark:bg-slate-950/40">
+          <span className="text-[11px] text-slate-400 dark:text-slate-500 font-bengali">
             * স্কোর ও প্রোগ্রেস স্বয়ংক্রিয়ভাবে সেভ হয়ে থাকে।
           </span>
 
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium font-bengali transition-all active:scale-95"
+            className="px-4 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-medium font-bengali transition-all active:scale-95"
           >
             বন্ধ করুন
           </button>

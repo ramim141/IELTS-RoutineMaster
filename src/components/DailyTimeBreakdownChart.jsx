@@ -56,9 +56,9 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
       mins: breakdown.listening, 
       pct: getPercentage(breakdown.listening),
       color: 'bg-amber-500', 
-      textColor: 'text-amber-700',
-      bgLight: 'bg-amber-50',
-      borderColor: 'border-amber-200',
+      textColor: 'text-amber-700 dark:text-amber-300',
+      bgLight: 'bg-amber-50/70 dark:bg-amber-950/20',
+      borderColor: 'border-amber-200 dark:border-amber-800/50',
       icon: Headphones
     },
     { 
@@ -67,9 +67,9 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
       mins: breakdown.reading, 
       pct: getPercentage(breakdown.reading),
       color: 'bg-sky-500', 
-      textColor: 'text-sky-700',
-      bgLight: 'bg-sky-50',
-      borderColor: 'border-sky-200',
+      textColor: 'text-sky-700 dark:text-sky-300',
+      bgLight: 'bg-sky-50/70 dark:bg-sky-950/20',
+      borderColor: 'border-sky-200 dark:border-sky-800/50',
       icon: BookOpen
     },
     { 
@@ -78,9 +78,9 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
       mins: breakdown.writing, 
       pct: getPercentage(breakdown.writing),
       color: 'bg-purple-500', 
-      textColor: 'text-purple-700',
-      bgLight: 'bg-purple-50',
-      borderColor: 'border-purple-200',
+      textColor: 'text-purple-700 dark:text-purple-300',
+      bgLight: 'bg-purple-50/70 dark:bg-purple-950/20',
+      borderColor: 'border-purple-200 dark:border-purple-800/50',
       icon: PenTool
     },
     { 
@@ -89,9 +89,9 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
       mins: breakdown.speaking, 
       pct: getPercentage(breakdown.speaking),
       color: 'bg-emerald-500', 
-      textColor: 'text-emerald-700',
-      bgLight: 'bg-emerald-50',
-      borderColor: 'border-emerald-200',
+      textColor: 'text-emerald-700 dark:text-emerald-300',
+      bgLight: 'bg-emerald-50/70 dark:bg-emerald-950/20',
+      borderColor: 'border-emerald-200 dark:border-emerald-800/50',
       icon: Mic
     },
     { 
@@ -100,26 +100,26 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
       mins: breakdown.vocab, 
       pct: getPercentage(breakdown.vocab),
       color: 'bg-indigo-500', 
-      textColor: 'text-indigo-700',
-      bgLight: 'bg-indigo-50',
-      borderColor: 'border-indigo-200',
+      textColor: 'text-indigo-700 dark:text-indigo-300',
+      bgLight: 'bg-indigo-50/70 dark:bg-indigo-950/20',
+      borderColor: 'border-indigo-200 dark:border-indigo-800/50',
       icon: Sparkles
     }
   ];
 
   return (
-    <div className="w-full bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] space-y-4">
+    <div className="w-full bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 p-5 sm:p-6 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] space-y-4 transition-all duration-200">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3.5">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100 shadow-xs">
+          <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800 shadow-xs">
             <Clock className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-sm font-extrabold font-bengali text-slate-900 flex items-center gap-2">
+            <h3 className="text-sm font-extrabold font-bengali text-slate-900 dark:text-white flex items-center gap-2">
               দৈনিক সময়ের ব্যালেন্স চার্ট (Time Breakdown Chart)
             </h3>
-            <p className="text-[11px] text-slate-500 font-bengali">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bengali">
               ৪টি মডিউলের মধ্যে সময়ের ভারসাম্য ও লক্ষ্যমাত্রা ট্র্যাক করুন
             </p>
           </div>
@@ -127,8 +127,8 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
 
         {/* Goal Status Badge */}
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-700 shadow-xs">
-            <TrendingUp className="w-3.5 h-3.5 text-indigo-600" />
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-700 dark:text-slate-200 shadow-xs">
+            <TrendingUp className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
             <span>{totalHours}h / {dailyHoursGoal}h Goal ({goalPercent}%)</span>
           </div>
         </div>
@@ -136,9 +136,9 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
 
       {/* Segmented Progress Bar */}
       <div className="space-y-1.5">
-        <div className="h-3.5 w-full bg-slate-100 rounded-full overflow-hidden flex p-0.5 shadow-inner">
+        <div className="h-3.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex p-0.5 shadow-inner">
           {breakdown.total === 0 ? (
-            <div className="w-full h-full bg-slate-200 rounded-full animate-pulse" />
+            <div className="w-full h-full bg-slate-200 dark:bg-slate-700 rounded-full animate-pulse" />
           ) : (
             modulesData.map((m) => {
               if (m.mins === 0) return null;
@@ -153,9 +153,9 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
             })
           )}
         </div>
-        <div className="flex items-center justify-between text-[11px] text-slate-400 font-bengali px-1">
-          <span>মোট পরিকল্পিত সময়: <strong className="text-slate-800 font-mono font-bold">{breakdown.total} মিনিট</strong> ({totalHours} ঘণ্টা)</span>
-          <span>সম্পন্ন হয়েছে: <strong className="text-emerald-600 font-mono font-bold">{breakdown.completedMinutes} মিনিট</strong> ({completedHours} ঘণ্টা)</span>
+        <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 font-bengali px-1">
+          <span>মোট পরিকল্পিত সময়: <strong className="text-slate-800 dark:text-slate-200 font-mono font-bold">{breakdown.total} মিনিট</strong> ({totalHours} ঘণ্টা)</span>
+          <span>সম্পন্ন হয়েছে: <strong className="text-emerald-600 dark:text-emerald-400 font-mono font-bold">{breakdown.completedMinutes} মিনিট</strong> ({completedHours} ঘণ্টা)</span>
         </div>
       </div>
 
@@ -173,10 +173,10 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
                   <IconComponent className={`w-3.5 h-3.5 ${m.textColor}`} />
                   <span className={`text-xs font-bold font-bengali ${m.textColor}`}>{m.label}</span>
                 </div>
-                <span className="text-[10px] font-mono font-black text-slate-500">{m.pct}%</span>
+                <span className="text-[10px] font-mono font-black text-slate-500 dark:text-slate-400">{m.pct}%</span>
               </div>
-              <div className="text-sm font-black font-mono text-slate-900">
-                {m.mins} <span className="text-[10px] font-bengali font-normal text-slate-500">মিনিট</span>
+              <div className="text-sm font-black font-mono text-slate-900 dark:text-white">
+                {m.mins} <span className="text-[10px] font-bengali font-normal text-slate-500 dark:text-slate-400">মিনিট</span>
               </div>
             </div>
           );

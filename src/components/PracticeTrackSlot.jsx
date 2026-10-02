@@ -135,8 +135,8 @@ export default function PracticeTrackSlot({
       presetId: null,
       module: customModule,
       title: customTitle.trim(),
-      desc: customDesc.trim() || 'প্র্যাকটিস সেশনের নির্ধারিত টেস্ট ও ড্রিল',
-      estimatedTime: parseInt(customTime, 10) || 35,
+      desc: customDesc.trim() || 'প্র্যাকটিস ট্র্যাক ড্রিল',
+      estimatedTime: parseInt(customTime, 10) || 40,
       targetSlot: 'practice',
       priority: customPriority,
       completed: false,
@@ -150,21 +150,23 @@ export default function PracticeTrackSlot({
     showToast('✅ নতুন প্র্যাকটিস টাস্ক যোগ হয়েছে!');
   };
 
-  // Add quick Cambridge Test practice entry
+  // Add Cambridge Test from Modal
   const handleAddCambridgeTestTask = (e) => {
-    e?.preventDefault();
-    const title = `${cambridgeBook} - ${cambridgeTest} (${cambridgeModule} Practice)`;
-    const desc = testScore ? `প্রাপ্ত স্কোর: ${testScore}/40 | নির্ধারিত সময়: ${testTimeTaken} মিনিট` : `ফুল মক টেস্ট ও মিস্টেক নোট ড্রিল`;
+    e.preventDefault();
+    const scoreVal = testScore ? `${testScore}/40` : 'Score Pending';
+    const title = `${cambridgeBook}: ${cambridgeTest} (${cambridgeModule}) - ${scoreVal}`;
+    const desc = `Timed Practice (${testTimeTaken} min) • Detailed Error Log & Review`;
+    const topicRef = `${cambridgeBook} > ${cambridgeTest} (${cambridgeModule})`;
 
     const newTask = {
-      id: 'task_cam_' + Date.now(),
+      id: 'task_cambridge_' + Date.now(),
       presetId: null,
       module: cambridgeModule,
       title: title,
       desc: desc,
-      topicRef: `${cambridgeBook} > ${cambridgeTest} > ${cambridgeModule}`,
-      mistakeLog: testScore ? `স্কোর: ${testScore}/40` : '',
-      estimatedTime: parseInt(testTimeTaken, 10) || 40,
+      topicRef: topicRef,
+      mistakeLog: testScore ? `Score: ${testScore}/40 (${Math.round((parseInt(testScore, 10)/40)*100)}%). Analyze wrong answers.` : '',
+      estimatedTime: parseInt(testTimeTaken, 10) || 30,
       targetSlot: 'practice',
       priority: 'high',
       completed: false,
@@ -174,7 +176,7 @@ export default function PracticeTrackSlot({
     onUpdateTasks([...dailyTasks, newTask]);
     setTestScore('');
     setIsCambridgeModalOpen(false);
-    showToast(`🎯 ${cambridgeBook} টেস্ট প্র্যাকটিস ট্র্যাকে যোগ হয়েছে!`);
+    showToast(`🎯 ${cambridgeBook} ${cambridgeTest} প্র্যাকটিস ট্র্যাকে যুক্ত হয়েছে!`);
   };
 
   // Remove a task
@@ -190,8 +192,8 @@ export default function PracticeTrackSlot({
       {
         id: 'task_prac_1_' + Date.now(),
         module: 'Listening',
-        title: 'Cambridge 18: Full Listening Test 1 (Audio 30m + Transfer 10m)',
-        desc: 'হেডফোন দিয়ে অফিশিয়াল টাইমে ৪০টি প্রশ্নের উত্তর দেওয়া ও স্কোর এন্ট্রি',
+        title: 'Cambridge 18: Full Listening Test 1 (30 min audio + 10 min Transfer)',
+        desc: 'হেডফোন দিয়ে একনাগাড়ে টেস্ট সম্পন্ন করা ও প্রতিটি ভুল আইডেন্টিফাই করা',
         topicRef: 'Cambridge 18 > Test 1 Listening',
         estimatedTime: 40,
         targetSlot: 'practice',
@@ -219,41 +221,41 @@ export default function PracticeTrackSlot({
 
   const getModuleBadgeColor = (mod) => {
     switch (mod) {
-      case 'Listening': return 'bg-amber-50 text-amber-700 border-amber-200';
-      case 'Reading': return 'bg-sky-50 text-sky-700 border-sky-200';
-      case 'Writing': return 'bg-purple-50 text-purple-700 border-purple-200';
-      case 'Speaking': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-      default: return 'bg-teal-50 text-teal-700 border-teal-200';
+      case 'Listening': return 'bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800/60';
+      case 'Reading': return 'bg-sky-50 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800/60';
+      case 'Writing': return 'bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800/60';
+      case 'Speaking': return 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60';
+      default: return 'bg-teal-50 dark:bg-teal-950/50 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800/60';
     }
   };
 
   return (
-    <div className="w-full bg-white rounded-3xl border border-slate-200/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] overflow-hidden transition-all relative">
+    <div className="w-full bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] overflow-hidden transition-all duration-200 relative">
       
       {/* Toast Notification */}
       {notification && (
-        <div className="absolute top-4 right-6 z-30 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold font-bengali shadow-xl flex items-center gap-2 animate-fadeIn border border-slate-700">
+        <div className="absolute top-4 right-6 z-30 px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-xs font-bold font-bengali shadow-xl flex items-center gap-2 animate-fadeIn border border-slate-700">
           <Sparkles className="w-3.5 h-3.5 text-teal-400" />
           <span>{notification}</span>
         </div>
       )}
 
       {/* 1. Header Section */}
-      <div className="p-5 sm:p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-teal-50/40 via-white to-emerald-50/20">
+      <div className="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-teal-50/40 via-white to-emerald-50/20 dark:from-teal-950/20 dark:via-slate-900 dark:to-emerald-950/10">
         <div className="flex items-center gap-3">
           <div className="p-2.5 sm:p-3 rounded-2xl bg-teal-600 text-white shadow-md shadow-teal-600/25 shrink-0">
             <Target className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg sm:text-xl font-extrabold font-bengali text-slate-900">
+              <h2 className="text-lg sm:text-xl font-extrabold font-bengali text-slate-900 dark:text-white">
                 ৩. প্র্যাকটিস ট্র্যাক (Practice Track)
               </h2>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-teal-100 text-teal-900 border border-teal-200 font-mono">
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-teal-100 dark:bg-teal-950/60 text-teal-900 dark:text-teal-300 border border-teal-200 dark:border-teal-800/60 font-mono">
                 Practice
               </span>
             </div>
-            <p className="text-xs text-slate-500 font-bengali mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali mt-0.5">
               কেমব্রিজ টেস্ট ও মক ড্রিল ট্র্যাক করুন, স্কোর সংরক্ষণ ও ভুল বিশ্লেষণ করুন
             </p>
           </div>
@@ -263,33 +265,33 @@ export default function PracticeTrackSlot({
         <div className="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
           <button
             onClick={() => setIsCambridgeModalOpen(true)}
-            className="px-3 py-2 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap"
+            className="px-3 py-2 rounded-xl bg-teal-50 dark:bg-teal-950/50 hover:bg-teal-100 dark:hover:bg-teal-900/60 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800/60 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap cursor-pointer"
             title="Cambridge Test Log Popup"
           >
-            <BookOpen className="w-3.5 h-3.5 text-teal-700" />
+            <BookOpen className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
             <span>Cambridge টেস্ট এন্ট্রি</span>
           </button>
 
           <button
             onClick={handleAutoSuggestPractice}
-            className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap"
+            className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap cursor-pointer"
             title="প্র্যাকটিসের জন্য সাজানো রুটিন নিন"
           >
-            <Wand2 className="w-3.5 h-3.5 text-teal-600" />
+            <Wand2 className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
             <span>রুটিন সাজান</span>
           </button>
 
           <button
             onClick={() => setIsCustomModalOpen(true)}
-            className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap"
+            className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap cursor-pointer"
           >
-            <Plus className="w-3.5 h-3.5 text-slate-700" />
+            <Plus className="w-3.5 h-3.5 text-slate-700 dark:text-slate-300" />
             <span>কাস্টম টাস্ক</span>
           </button>
 
           <button
             onClick={() => setIsPresetModalOpen(true)}
-            className="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-extrabold font-bengali flex items-center gap-1.5 shadow-md shadow-teal-600/20 transition-all active:scale-95 whitespace-nowrap"
+            className="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-extrabold font-bengali flex items-center gap-1.5 shadow-md shadow-teal-600/20 transition-all active:scale-95 whitespace-nowrap cursor-pointer"
           >
             <Sparkles className="w-3.5 h-3.5 text-white" />
             <span>প্রিসেট লাইব্রেরি</span>
@@ -298,22 +300,22 @@ export default function PracticeTrackSlot({
       </div>
 
       {/* 2. Practice Completion Status Bar */}
-      <div className="px-6 py-3.5 bg-teal-50/40 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="px-6 py-3.5 bg-teal-50/40 dark:bg-slate-850/60 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-700 font-bengali flex items-center gap-1.5">
-              <CheckCircle className="w-4 h-4 text-teal-600" />
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali flex items-center gap-1.5">
+              <CheckCircle className="w-4 h-4 text-teal-600 dark:text-teal-400" />
               প্র্যাকটিস অগ্রগতি:
             </span>
-            <span className="text-xs font-extrabold font-mono text-teal-800 bg-teal-100/70 px-2.5 py-0.5 rounded-lg border border-teal-200">
+            <span className="text-xs font-extrabold font-mono text-teal-800 dark:text-teal-300 bg-teal-100/70 dark:bg-teal-950/60 px-2.5 py-0.5 rounded-lg border border-teal-200 dark:border-teal-800/60">
               {completedPracticeCount} / {practiceTasks.length} সম্পন্ন
             </span>
           </div>
 
-          <span className="text-slate-300 hidden sm:inline">•</span>
+          <span className="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
 
-          <div className="text-xs text-slate-600 font-bengali">
-            মোট প্র্যাকটিস সময়: <strong className="text-slate-900 font-mono font-bold">{practicePlannedMinutes} মিনিট</strong> ({practicePlannedHours}h)
+          <div className="text-xs text-slate-600 dark:text-slate-400 font-bengali">
+            মোট প্র্যাকটিস সময়: <strong className="text-slate-900 dark:text-white font-mono font-bold">{practicePlannedMinutes} মিনিট</strong> ({practicePlannedHours}h)
           </div>
         </div>
 
@@ -321,10 +323,10 @@ export default function PracticeTrackSlot({
         {incompletePracticeCount > 0 && practiceTasks.length > 0 && (
           <button
             onClick={() => onShiftAllIncompleteToNextDay()}
-            className="px-3 py-1.5 rounded-xl bg-white hover:bg-teal-50 text-teal-800 border border-teal-200 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 self-start sm:self-auto"
+            className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-teal-50 dark:hover:bg-slate-700 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800/60 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 self-start sm:self-auto cursor-pointer"
             title="প্র্যাকটিসের বাকি কাজ পরের দিনে নিয়ে যান"
           >
-            <FastForward className="w-3.5 h-3.5 text-teal-600" />
+            <FastForward className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
             <span>বাকি {incompletePracticeCount}টি প্র্যাকটিস Day {currentDay + 1} এ শিফট</span>
           </button>
         )}
@@ -333,43 +335,43 @@ export default function PracticeTrackSlot({
       {/* 3. Practice Task List with Accordion */}
       <div className="p-6">
         {practiceTasks.length === 0 ? (
-          <div className="text-center py-10 px-4 border-2 border-dashed border-teal-200/80 rounded-2xl bg-teal-50/20 space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center mx-auto shadow-xs">
+          <div className="text-center py-10 px-4 border-2 border-dashed border-teal-200/80 dark:border-teal-800/40 rounded-2xl bg-teal-50/20 dark:bg-teal-950/10 space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-teal-100 dark:bg-teal-950/50 text-teal-600 dark:text-teal-400 flex items-center justify-center mx-auto shadow-xs">
               <Target className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-slate-800 font-bengali">
+            <h3 className="text-base font-bold text-slate-800 dark:text-white font-bengali">
               প্র্যাকটিস ট্র্যাক স্লটে এখনো কোনো টেস্ট বা ড্রিল যোগ করা হয়নি!
             </h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto font-bengali">
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto font-bengali">
               কেমব্রিজ টেস্ট বা নির্দিষ্ট প্রশ্ন প্র্যাকটিস করতে উপরের <strong>Cambridge টেস্ট এন্ট্রি</strong> অথবা <strong>প্রিসেট লাইব্রেরি</strong> ব্যবহার করুন।
             </p>
             <div className="flex justify-center flex-wrap gap-3 pt-2">
               <button
                 onClick={() => setIsCambridgeModalOpen(true)}
-                className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold font-bengali flex items-center gap-2 shadow-sm transition-all"
+                className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold font-bengali flex items-center gap-2 shadow-sm transition-all cursor-pointer"
               >
                 <BookOpen className="w-3.5 h-3.5" />
                 Cambridge টেস্ট যোগ করুন
               </button>
               <button
                 onClick={() => setIsPresetModalOpen(true)}
-                className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold font-bengali flex items-center gap-2 shadow-xs transition-all"
+                className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold font-bengali flex items-center gap-2 shadow-xs transition-all cursor-pointer"
               >
-                <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+                <Sparkles className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                 প্র্যাকটিস প্রিসেট
               </button>
               <button
                 onClick={handleAutoSuggestPractice}
-                className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs"
+                className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
               >
-                <Wand2 className="w-3.5 h-3.5 text-teal-600" />
+                <Wand2 className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                 কুইক প্র্যাকটিস রুটিন
               </button>
             </div>
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="flex items-center justify-between text-xs text-slate-400 font-bold px-1 uppercase font-bengali">
+            <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 font-bold px-1 uppercase font-bengali">
               <span>প্র্যাকটিস ট্র্যাকের টাস্ক তালিকা ({practiceTasks.length})</span>
               <span>সময় ও বিস্তারিত নোট</span>
             </div>
@@ -392,14 +394,14 @@ export default function PracticeTrackSlot({
             <div className="pt-2 flex justify-center gap-3">
               <button
                 onClick={() => setIsCambridgeModalOpen(true)}
-                className="text-xs font-bold text-teal-700 hover:text-teal-900 font-bengali flex items-center gap-1.5 py-2 px-3 rounded-xl hover:bg-teal-50 transition-colors"
+                className="text-xs font-bold text-teal-700 dark:text-teal-400 hover:text-teal-900 dark:hover:text-teal-300 font-bengali flex items-center gap-1.5 py-2 px-3 rounded-xl hover:bg-teal-50 dark:hover:bg-teal-950/40 transition-colors cursor-pointer"
               >
                 <BookOpen className="w-4 h-4" />
                 Cambridge টেস্ট যোগ করুন
               </button>
               <button
                 onClick={() => setIsPresetModalOpen(true)}
-                className="text-xs font-bold text-teal-600 hover:text-teal-800 font-bengali flex items-center gap-1.5 py-2 px-3 rounded-xl hover:bg-teal-50 transition-colors"
+                className="text-xs font-bold text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 font-bengali flex items-center gap-1.5 py-2 px-3 rounded-xl hover:bg-teal-50 dark:hover:bg-teal-950/40 transition-colors cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 আরো প্রিসেট ড্রিল নিন
@@ -409,25 +411,23 @@ export default function PracticeTrackSlot({
         )}
       </div>
 
-
-
       {/* ======================================================== */}
       {/* 5. PRESET MODAL WITH INSTANT SEARCH */}
       {/* ======================================================== */}
       {isPresetModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-4xl bg-white border border-slate-200 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-4xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 dark:text-white max-h-[90vh] flex flex-col">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-2xl bg-teal-50 text-teal-600 border border-teal-100 shadow-xs">
+                <div className="p-2.5 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-100 dark:border-teal-800 shadow-xs">
                   <Target className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold font-bengali text-slate-900">
+                  <h3 className="text-xl font-extrabold font-bengali text-slate-900 dark:text-white">
                     IELTS মাইক্রো-টাস্ক প্রিসেট লাইব্রেরি (প্র্যাকটিস ট্র্যাক)
                   </h3>
-                  <p className="text-xs text-slate-500 font-bengali">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
                     ৫০টিরও বেশি নির্দিষ্ট সেকশন ও টেস্ট ড্রিল থেকে ১-ক্লিকে প্র্যাকটিস ট্র্যাকে নিন
                   </p>
                 </div>
@@ -435,14 +435,14 @@ export default function PracticeTrackSlot({
 
               <button
                 onClick={() => setIsPresetModalOpen(false)}
-                className="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition-colors"
+                className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Search Bar & Filter Tabs */}
-            <div className="py-3 space-y-2.5 shrink-0 border-b border-slate-100">
+            <div className="py-3 space-y-2.5 shrink-0 border-b border-slate-100 dark:border-slate-800">
               <div className="relative">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 <input
@@ -450,7 +450,7 @@ export default function PracticeTrackSlot({
                   placeholder="টাস্ক সার্চ করুন (যেমন: Section 1-4, True/False, Headings, Passage, Overview, Cue Card)..."
                   value={presetSearch}
                   onChange={(e) => setPresetSearch(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:border-teal-500 focus:bg-white font-bengali transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:border-teal-500 focus:bg-white dark:focus:bg-slate-850 font-bengali transition-colors"
                 />
               </div>
 
@@ -459,10 +459,10 @@ export default function PracticeTrackSlot({
                   <button
                     key={tab}
                     onClick={() => setActivePresetTab(tab)}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                       activePresetTab === tab
                         ? 'bg-teal-600 text-white shadow-xs'
-                        : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                        : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-750'
                     }`}
                   >
                     {tab}
@@ -486,7 +486,7 @@ export default function PracticeTrackSlot({
 
                   return (
                     <div key={group.module} className="space-y-2.5">
-                      <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 font-bengali flex items-center gap-2">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bengali flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-teal-600" />
                         {group.module} ড্রিল ({filteredTasks.length})
                       </h4>
@@ -500,8 +500,8 @@ export default function PracticeTrackSlot({
                               key={preset.id}
                               className={`p-4 rounded-2xl border transition-all flex flex-col justify-between gap-3 ${
                                 isAdded
-                                  ? 'bg-teal-50/50 border-teal-300 shadow-xs'
-                                  : 'bg-slate-50/60 border-slate-200 hover:border-slate-300 hover:bg-white'
+                                  ? 'bg-teal-50/50 dark:bg-teal-950/30 border-teal-300 dark:border-teal-700 shadow-xs'
+                                  : 'bg-slate-50/60 dark:bg-slate-850 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-white dark:hover:bg-slate-800'
                               }`}
                             >
                               <div className="space-y-1.5">
@@ -509,25 +509,25 @@ export default function PracticeTrackSlot({
                                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border font-mono ${getModuleBadgeColor(group.module)}`}>
                                     {group.module}
                                   </span>
-                                  <div className="flex items-center gap-1 text-xs text-slate-500 font-mono font-bold">
+                                  <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 font-mono font-bold">
                                     <Clock className="w-3.5 h-3.5" />
                                     <span>{preset.defaultTime} min</span>
                                   </div>
                                 </div>
 
-                                <h5 className="text-sm font-bold text-slate-900 font-bengali leading-snug">
+                                <h5 className="text-sm font-bold text-slate-900 dark:text-white font-bengali leading-snug">
                                   {preset.title}
                                 </h5>
-                                <p className="text-xs text-slate-500 font-bengali leading-relaxed">
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali leading-relaxed">
                                   {preset.desc}
                                 </p>
                               </div>
 
-                              <div className="pt-2 border-t border-slate-200/60 flex items-center justify-end">
+                              <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-end">
                                 <button
                                   onClick={() => handleAddPreset(preset, group.module)}
                                   disabled={isAdded}
-                                  className={`px-3 py-1.5 rounded-xl text-xs font-bold font-bengali flex items-center gap-1.5 transition-all ${
+                                  className={`px-3 py-1.5 rounded-xl text-xs font-bold font-bengali flex items-center gap-1.5 transition-all cursor-pointer ${
                                     isAdded
                                       ? 'bg-emerald-600 text-white cursor-default'
                                       : 'bg-teal-600 hover:bg-teal-700 text-white shadow-xs active:scale-95'
@@ -555,13 +555,13 @@ export default function PracticeTrackSlot({
                 })}
             </div>
 
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between shrink-0">
-              <span className="text-xs text-slate-500 font-bengali">
-                প্র্যাকটিসে নির্বাচিত: <strong className="text-teal-600 font-mono">{practiceTasks.length}টি টাস্ক</strong>
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0">
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
+                প্র্যাকটিসে নির্বাচিত: <strong className="text-teal-600 dark:text-teal-400 font-mono">{practiceTasks.length}টি টাস্ক</strong>
               </span>
               <button
                 onClick={() => setIsPresetModalOpen(false)}
-                className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold font-bengali transition-all shadow-xs"
+                className="px-6 py-2.5 rounded-xl bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-500 text-white text-xs font-bold font-bengali transition-all shadow-xs cursor-pointer"
               >
                 সম্পন্ন
               </button>
@@ -575,26 +575,26 @@ export default function PracticeTrackSlot({
       {/* 5. CAMBRIDGE TEST QUICK LOGGER MODAL */}
       {/* ======================================================== */}
       {isCambridgeModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 dark:text-white">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-teal-50 text-teal-600 border border-teal-100">
+                <div className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-100 dark:border-teal-800">
                   <BookOpen className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold font-bengali text-slate-900">
+                  <h3 className="text-lg font-bold font-bengali text-slate-900 dark:text-white">
                     Cambridge Test Quick Logger
                   </h3>
-                  <p className="text-xs text-slate-500 font-bengali">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
                     কেমব্রিজ টেস্ট নম্বর ও স্কোর দিয়ে ১-ক্লিকে প্র্যাকটিস ট্র্যাকে এন্ট্রি করুন
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsCambridgeModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100"
+                className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -604,13 +604,13 @@ export default function PracticeTrackSlot({
               <div className="grid grid-cols-2 gap-3">
                 {/* Book */}
                 <div>
-                  <label className="text-xs font-bold text-slate-700 font-bengali block mb-1.5">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali block mb-1.5">
                     কেমব্রিজ বুক
                   </label>
                   <select
                     value={cambridgeBook}
                     onChange={(e) => setCambridgeBook(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:border-teal-500 focus:bg-white font-mono shadow-xs transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:border-teal-500 focus:bg-white dark:focus:bg-slate-850 font-mono shadow-xs transition-colors"
                   >
                     {[
                       'Cambridge 19', 
@@ -631,13 +631,13 @@ export default function PracticeTrackSlot({
 
                 {/* Test */}
                 <div>
-                  <label className="text-xs font-bold text-slate-700 font-bengali block mb-1.5">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali block mb-1.5">
                     টেস্ট নম্বর
                   </label>
                   <select
                     value={cambridgeTest}
                     onChange={(e) => setCambridgeTest(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:border-teal-500 focus:bg-white font-mono shadow-xs transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:border-teal-500 focus:bg-white dark:focus:bg-slate-850 font-mono shadow-xs transition-colors"
                   >
                     {['Test 1', 'Test 2', 'Test 3', 'Test 4'].map(t => (
                       <option key={t} value={t}>{t}</option>
@@ -648,7 +648,7 @@ export default function PracticeTrackSlot({
 
               {/* Module selection */}
               <div>
-                <label className="text-xs font-bold text-slate-700 font-bengali block mb-1.5">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali block mb-1.5">
                   মডিউল বাছাই করুন
                 </label>
                 <div className="grid grid-cols-4 gap-2">
@@ -657,10 +657,10 @@ export default function PracticeTrackSlot({
                       type="button"
                       key={m}
                       onClick={() => setCambridgeModule(m)}
-                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                      className={`py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                         cambridgeModule === m
-                          ? 'bg-teal-50 border-teal-500 text-teal-800 shadow-xs'
-                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                          ? 'bg-teal-50 dark:bg-teal-950/60 border-teal-500 text-teal-800 dark:text-teal-300 shadow-xs'
+                          : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-750'
                       }`}
                     >
                       {m}
@@ -672,7 +672,7 @@ export default function PracticeTrackSlot({
               <div className="grid grid-cols-2 gap-3">
                 {/* Score */}
                 <div>
-                  <label className="text-xs font-bold text-slate-700 font-bengali block mb-1.5">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali block mb-1.5">
                     প্রাপ্ত স্কোর (৪০ এ)
                   </label>
                   <input
@@ -682,13 +682,13 @@ export default function PracticeTrackSlot({
                     placeholder="যেমন: 34"
                     value={testScore}
                     onChange={(e) => setTestScore(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:border-teal-500 focus:bg-white font-mono shadow-xs transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:border-teal-500 focus:bg-white dark:focus:bg-slate-850 font-mono shadow-xs transition-colors"
                   />
                 </div>
 
                 {/* Duration */}
                 <div>
-                  <label className="text-xs font-bold text-slate-700 font-bengali block mb-1.5">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali block mb-1.5">
                     নির্ধারিত সময় (মিনিট)
                   </label>
                   <input
@@ -698,22 +698,22 @@ export default function PracticeTrackSlot({
                     step="5"
                     value={testTimeTaken}
                     onChange={(e) => setTestTimeTaken(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:border-teal-500 focus:bg-white font-mono shadow-xs transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:border-teal-500 focus:bg-white dark:focus:bg-slate-850 font-mono shadow-xs transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-100 flex justify-end gap-2">
+              <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsCambridgeModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 font-bengali"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-bengali cursor-pointer"
                 >
                   বাতিল
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-extrabold font-bengali shadow-md shadow-teal-600/20 active:scale-95"
+                  className="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-extrabold font-bengali shadow-md shadow-teal-600/20 active:scale-95 cursor-pointer"
                 >
                   🎯 প্র্যাকটিস ট্র্যাকে যোগ করুন
                 </button>
@@ -728,21 +728,21 @@ export default function PracticeTrackSlot({
       {/* 6. CUSTOM TASK CREATOR */}
       {/* ======================================================== */}
       {isCustomModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 dark:text-white">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-teal-50 text-teal-600 border border-teal-100">
+                <div className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-100 dark:border-teal-800">
                   <Plus className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold font-bengali text-slate-900">
+                <h3 className="text-lg font-bold font-bengali text-slate-900 dark:text-white">
                   কাস্টম প্র্যাকটিস টাস্ক তৈরি করুন
                 </h3>
               </div>
               <button
                 onClick={() => setIsCustomModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100"
+                className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -750,7 +750,7 @@ export default function PracticeTrackSlot({
 
             <form onSubmit={handleAddCustomTask} className="mt-5 space-y-4">
               <div>
-                <label className="text-xs font-bold text-slate-600 mb-1.5 block font-bengali">
+                <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1.5 block font-bengali">
                   মডিউল বাছাই করুন
                 </label>
                 <div className="grid grid-cols-4 gap-2">
@@ -759,10 +759,10 @@ export default function PracticeTrackSlot({
                       type="button"
                       key={m}
                       onClick={() => setCustomModule(m)}
-                      className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                      className={`py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                         customModule === m
-                          ? 'bg-teal-50 border-teal-500 text-teal-800'
-                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                          ? 'bg-teal-50 dark:bg-teal-950/60 border-teal-500 text-teal-800 dark:text-teal-300'
+                          : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-750'
                       }`}
                     >
                       {m}
@@ -772,7 +772,7 @@ export default function PracticeTrackSlot({
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-600 mb-1 block font-bengali">
+                <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1 block font-bengali">
                   টাস্কের নাম (Micro-task / Practice)
                 </label>
                 <input
@@ -781,12 +781,12 @@ export default function PracticeTrackSlot({
                   placeholder="যেমন: Cambridge 18 Test 2 Reading Passage 3"
                   value={customTitle}
                   onChange={(e) => setCustomTitle(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-teal-500 focus:bg-white font-bengali transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-teal-500 focus:bg-white dark:focus:bg-slate-850 font-bengali transition-colors"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-600 mb-1 block font-bengali">
+                <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1 block font-bengali">
                   বিবরণ (ঐচ্ছিক)
                 </label>
                 <input
@@ -794,12 +794,12 @@ export default function PracticeTrackSlot({
                   placeholder="যেমন: 20 মিনিটের মধ্যে সমাধান ও ভুল অ্যানালাইসিস"
                   value={customDesc}
                   onChange={(e) => setCustomDesc(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-teal-500 focus:bg-white font-bengali transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-teal-500 focus:bg-white dark:focus:bg-slate-850 font-bengali transition-colors"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-600 mb-1 block font-bengali">
+                <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1 block font-bengali">
                   সময় (Minutes)
                 </label>
                 <input
@@ -809,21 +809,21 @@ export default function PracticeTrackSlot({
                   step="5"
                   value={customTime}
                   onChange={(e) => setCustomTime(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-teal-500 focus:bg-white transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-teal-500 focus:bg-white dark:focus:bg-slate-850 transition-colors"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-100 flex justify-end gap-2">
+              <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsCustomModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 font-bengali"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-bengali cursor-pointer"
                 >
                   বাতিল
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-extrabold font-bengali shadow-md shadow-teal-600/20"
+                  className="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-extrabold font-bengali shadow-md shadow-teal-600/20 cursor-pointer"
                 >
                   প্র্যাকটিস ট্র্যাকে যোগ করুন
                 </button>

@@ -254,41 +254,41 @@ export default function NightSlotReview({
 
   const getModuleBadgeColor = (mod) => {
     switch (mod) {
-      case 'Listening': return 'bg-amber-50 text-amber-700 border-amber-200';
-      case 'Reading': return 'bg-sky-50 text-sky-700 border-sky-200';
-      case 'Writing': return 'bg-purple-50 text-purple-700 border-purple-200';
-      case 'Speaking': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-      default: return 'bg-indigo-50 text-indigo-700 border-indigo-200';
+      case 'Listening': return 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800';
+      case 'Reading': return 'bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-400 border-sky-200 dark:border-sky-800';
+      case 'Writing': return 'bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800';
+      case 'Speaking': return 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800';
+      default: return 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800';
     }
   };
 
   return (
-    <div className="w-full bg-white rounded-3xl border border-slate-200/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] overflow-hidden transition-all relative">
+    <div className="w-full bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] overflow-hidden transition-all relative">
       
       {/* Toast Notification */}
       {notification && (
-        <div className="absolute top-4 right-6 z-30 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold font-bengali shadow-xl flex items-center gap-2 animate-fadeIn border border-slate-700">
+        <div className="absolute top-4 right-6 z-30 px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-xs font-bold font-bengali shadow-xl flex items-center gap-2 animate-fadeIn border border-slate-700">
           <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
           <span>{notification}</span>
         </div>
       )}
 
       {/* 1. Header Section */}
-      <div className="p-5 sm:p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-indigo-50/40 via-white to-purple-50/20">
+      <div className="p-5 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-indigo-50/40 via-white to-purple-50/20 dark:from-indigo-950/30 dark:via-slate-900 dark:to-purple-950/20">
         <div className="flex items-center gap-3">
           <div className="p-2.5 sm:p-3 rounded-2xl bg-indigo-600 text-white shadow-md shadow-indigo-600/25 shrink-0">
             <Moon className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg sm:text-xl font-extrabold font-bengali text-slate-900">
+              <h2 className="text-lg sm:text-xl font-extrabold font-bengali text-slate-900 dark:text-slate-100">
                 ৪. রাতের স্লট (Night Slot)
               </h2>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-900 border border-indigo-200 font-mono">
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-900 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-mono">
                 Night
               </span>
             </div>
-            <p className="text-xs text-slate-500 font-bengali mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali mt-0.5">
               রাতের টাস্ক, মক ব্যান্ড ক্যালকুলেশন ও স্ট্রিক বাড়িয়ে ডে ফাইনাল লক
             </p>
           </div>
@@ -298,18 +298,18 @@ export default function NightSlotReview({
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleAutoSuggestNight}
-            className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap"
+            className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap border border-transparent dark:border-slate-700"
             title="রাতের জন্য সাজানো রুটিন নিন"
           >
-            <Wand2 className="w-3.5 h-3.5 text-indigo-600" />
+            <Wand2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
             <span>রুটিন সাজান</span>
           </button>
 
           <button
             onClick={() => setIsCustomModalOpen(true)}
-            className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap"
+            className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 whitespace-nowrap border border-transparent dark:border-slate-700"
           >
-            <Plus className="w-3.5 h-3.5 text-slate-700" />
+            <Plus className="w-3.5 h-3.5 text-slate-700 dark:text-slate-300" />
             <span>কাস্টম টাস্ক</span>
           </button>
 
@@ -324,22 +324,22 @@ export default function NightSlotReview({
       </div>
 
       {/* 2. Night Completion Status Bar */}
-      <div className="px-6 py-3.5 bg-indigo-50/40 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="px-6 py-3.5 bg-indigo-50/40 dark:bg-indigo-950/20 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-700 font-bengali flex items-center gap-1.5">
-              <CheckCircle className="w-4 h-4 text-indigo-600" />
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali flex items-center gap-1.5">
+              <CheckCircle className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               রাতের অগ্রগতি:
             </span>
-            <span className="text-xs font-extrabold font-mono text-indigo-800 bg-indigo-100/70 px-2.5 py-0.5 rounded-lg border border-indigo-200">
+            <span className="text-xs font-extrabold font-mono text-indigo-800 dark:text-indigo-300 bg-indigo-100/70 dark:bg-indigo-900/50 px-2.5 py-0.5 rounded-lg border border-indigo-200 dark:border-indigo-800">
               {completedNightCount} / {nightTasks.length} সম্পন্ন
             </span>
           </div>
 
-          <span className="text-slate-300 hidden sm:inline">•</span>
+          <span className="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
 
-          <div className="text-xs text-slate-600 font-bengali">
-            রাতের মোট সময়: <strong className="text-slate-900 font-mono font-bold">{nightPlannedMinutes} মিনিট</strong> ({nightPlannedHours}h)
+          <div className="text-xs text-slate-600 dark:text-slate-400 font-bengali">
+            রাতের মোট সময়: <strong className="text-slate-900 dark:text-slate-200 font-mono font-bold">{nightPlannedMinutes} মিনিট</strong> ({nightPlannedHours}h)
           </div>
         </div>
 
@@ -347,10 +347,10 @@ export default function NightSlotReview({
         {incompleteNightCount > 0 && nightTasks.length > 0 && (
           <button
             onClick={() => onShiftAllIncompleteToNextDay()}
-            className="px-3 py-1.5 rounded-xl bg-white hover:bg-indigo-50 text-indigo-800 border border-indigo-200 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 self-start sm:self-auto"
+            className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs active:scale-95 self-start sm:self-auto"
             title="রাতের বাকি কাজ পরের দিনে নিয়ে যান"
           >
-            <FastForward className="w-3.5 h-3.5 text-indigo-600" />
+            <FastForward className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
             <span>বাকি {incompleteNightCount}টি কাজ Day {currentDay + 1} এ শিফট করুন</span>
           </button>
         )}
@@ -359,14 +359,14 @@ export default function NightSlotReview({
       {/* 3. Night Task List with Accordion */}
       <div className="p-6 space-y-6">
         {nightTasks.length === 0 ? (
-          <div className="text-center py-10 px-4 border-2 border-dashed border-indigo-200/80 rounded-2xl bg-indigo-50/20 space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto shadow-xs">
+          <div className="text-center py-10 px-4 border-2 border-dashed border-indigo-200/80 dark:border-indigo-900/50 rounded-2xl bg-indigo-50/20 dark:bg-indigo-950/10 space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto shadow-xs">
               <Moon className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-slate-800 font-bengali">
+            <h3 className="text-base font-bold text-slate-800 dark:text-slate-200 font-bengali">
               রাতের স্লটে এখনো কোনো টাস্ক যোগ করা হয়নি!
             </h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto font-bengali">
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto font-bengali">
               রাতে রিভিউ ও পড়ার জন্য <strong>রাতের প্রিসেট লাইব্রেরি</strong> অথবা <strong>রাতের রুটিন সাজান</strong> বাটনে ক্লিক করুন।
             </p>
             <div className="flex justify-center gap-3 pt-2">
@@ -379,16 +379,16 @@ export default function NightSlotReview({
               </button>
               <button
                 onClick={handleAutoSuggestNight}
-                className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs"
+                className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs"
               >
-                <Wand2 className="w-3.5 h-3.5 text-indigo-600" />
+                <Wand2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
                 কুইক রাতের রুটিন
               </button>
             </div>
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="flex items-center justify-between text-xs text-slate-400 font-bold px-1 uppercase font-bengali">
+            <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 font-bold px-1 uppercase font-bengali">
               <span>রাতের সেশনের টাস্ক তালিকা ({nightTasks.length})</span>
               <span>সময় ও বিস্তারিত নোট</span>
             </div>
@@ -411,7 +411,7 @@ export default function NightSlotReview({
             <div className="pt-2 flex justify-center">
               <button
                 onClick={() => setIsPresetModalOpen(true)}
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-800 font-bengali flex items-center gap-1.5 py-2 px-4 rounded-xl hover:bg-indigo-50 transition-colors"
+                className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-bengali flex items-center gap-1.5 py-2 px-4 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/30 transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 রাতের স্লটে আরো টাস্ক যুক্ত করুন
@@ -423,26 +423,26 @@ export default function NightSlotReview({
         {/* ======================================================== */}
         {/* EXTRA NIGHT TOOL: Official IELTS Band Score Calculator */}
         {/* ======================================================== */}
-        <div className="p-6 rounded-3xl bg-slate-50/90 border border-slate-200/90 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
+        <div className="p-6 rounded-3xl bg-slate-50/90 dark:bg-slate-850 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700/80 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-700/80 pb-3 flex-wrap gap-3">
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-xl bg-indigo-600 text-white shadow-xs">
                 <Calculator className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-sm font-extrabold font-bengali text-slate-900">
+                <h4 className="text-sm font-extrabold font-bengali text-slate-900 dark:text-slate-100">
                   IELTS Band Score Calculator (আজকের মক টেস্ট স্কোর)
                 </h4>
-                <p className="text-[11px] text-slate-500 font-bengali">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bengali">
                   ৪০ এ প্রাপ্ত সঠিক মার্কস লিখুন; স্বয়ংক্রিয়ভাবে অফিসিয়াল ব্যান্ড স্কোর হিসাব হবে
                 </p>
               </div>
             </div>
 
             {/* Calculated Overall Band Badge */}
-            <div className="flex items-center gap-2 bg-white border border-indigo-200 px-3.5 py-1.5 rounded-2xl shadow-xs">
-              <span className="text-xs font-bold text-slate-600 font-bengali">Overall Score:</span>
-              <span className="text-sm font-black text-indigo-700 font-mono">
+            <div className="flex items-center gap-2 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800 px-3.5 py-1.5 rounded-2xl shadow-xs">
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-300 font-bengali">Overall Score:</span>
+              <span className="text-sm font-black text-indigo-700 dark:text-indigo-400 font-mono">
                 Band {overallCalculatedBand > 0 ? overallCalculatedBand : targetSettings.targetBand}
               </span>
             </div>
@@ -451,10 +451,10 @@ export default function NightSlotReview({
           {/* 4 Modules Input Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {/* 1. Listening */}
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1.5 shadow-xs">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1.5 shadow-xs">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-amber-700 font-bengali">Listening (৪০ এ)</label>
-                <span className="text-xs font-extrabold text-amber-600 font-mono">
+                <label className="text-xs font-bold text-amber-700 dark:text-amber-400 font-bengali">Listening (৪০ এ)</label>
+                <span className="text-xs font-extrabold text-amber-600 dark:text-amber-400 font-mono">
                   {lBand > 0 ? `Band ${lBand}` : '-'}
                 </span>
               </div>
@@ -465,16 +465,16 @@ export default function NightSlotReview({
                 placeholder="যেমন: 34"
                 value={rawListening}
                 onChange={(e) => setRawListening(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-amber-500 font-mono"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-amber-500 font-mono"
               />
-              <span className="text-[10px] text-slate-400 block font-mono">32-34 = Band 7.5</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500 block font-mono">32-34 = Band 7.5</span>
             </div>
 
             {/* 2. Reading */}
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1.5 shadow-xs">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1.5 shadow-xs">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-sky-700 font-bengali">Reading (৪০ এ)</label>
-                <span className="text-xs font-extrabold text-sky-600 font-mono">
+                <label className="text-xs font-bold text-sky-700 dark:text-sky-400 font-bengali">Reading (৪০ এ)</label>
+                <span className="text-xs font-extrabold text-sky-600 dark:text-sky-400 font-mono">
                   {rBand > 0 ? `Band ${rBand}` : '-'}
                 </span>
               </div>
@@ -485,45 +485,45 @@ export default function NightSlotReview({
                 placeholder="যেমন: 33"
                 value={rawReading}
                 onChange={(e) => setRawReading(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-sky-500 font-mono"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-sky-500 font-mono"
               />
-              <span className="text-[10px] text-slate-400 block font-mono">33-34 = Band 7.5</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500 block font-mono">33-34 = Band 7.5</span>
             </div>
 
             {/* 3. Writing */}
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1.5 shadow-xs">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1.5 shadow-xs">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-purple-700 font-bengali">Writing Band</label>
-                <span className="text-xs font-extrabold text-purple-600 font-mono">Band {writingBand}</span>
+                <label className="text-xs font-bold text-purple-700 dark:text-purple-400 font-bengali">Writing Band</label>
+                <span className="text-xs font-extrabold text-purple-600 dark:text-purple-400 font-mono">Band {writingBand}</span>
               </div>
               <select
                 value={writingBand}
                 onChange={(e) => setWritingBand(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-purple-500 font-mono"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-purple-500 font-mono"
               >
                 {[6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0].map(s => (
                   <option key={s} value={s}>Band {s}</option>
                 ))}
               </select>
-              <span className="text-[10px] text-slate-400 block font-bengali">Task 1 + Task 2</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500 block font-bengali">Task 1 + Task 2</span>
             </div>
 
             {/* 4. Speaking */}
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 space-y-1.5 shadow-xs">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-1.5 shadow-xs">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-emerald-700 font-bengali">Speaking Band</label>
-                <span className="text-xs font-extrabold text-emerald-600 font-mono">Band {speakingBand}</span>
+                <label className="text-xs font-bold text-emerald-700 dark:text-emerald-400 font-bengali">Speaking Band</label>
+                <span className="text-xs font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">Band {speakingBand}</span>
               </div>
               <select
                 value={speakingBand}
                 onChange={(e) => setSpeakingBand(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-emerald-500 font-mono"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-emerald-500 font-mono"
               >
                 {[6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0].map(s => (
                   <option key={s} value={s}>Band {s}</option>
                 ))}
               </select>
-              <span className="text-[10px] text-slate-400 block font-bengali">Part 1, 2, 3 Mock</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500 block font-bengali">Part 1, 2, 3 Mock</span>
             </div>
           </div>
         </div>
@@ -531,7 +531,7 @@ export default function NightSlotReview({
         {/* ======================================================== */}
         {/* FINAL DAY LOCK & CELEBRATION BAR */}
         {/* ======================================================== */}
-        <div className="p-5 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+        <div className="p-5 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 dark:from-slate-800 dark:via-indigo-950 dark:to-slate-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-indigo-900/50">
           <div className="flex items-center gap-3.5 text-center sm:text-left">
             <div className="w-12 h-12 rounded-2xl bg-amber-500 text-slate-900 flex items-center justify-center shadow-lg shadow-amber-500/20 shrink-0">
               <Flame className="w-6 h-6 fill-current animate-bounce" />
@@ -561,19 +561,19 @@ export default function NightSlotReview({
       {/* 4. PRESET MODAL WITH INSTANT SEARCH */}
       {/* ======================================================== */}
       {isPresetModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-4xl bg-white border border-slate-200 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 dark:bg-black/75 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-4xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 dark:text-slate-100 max-h-[90vh] flex flex-col">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100 shadow-xs">
+                <div className="p-2.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800 shadow-xs">
                   <Moon className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold font-bengali text-slate-900">
+                  <h3 className="text-xl font-extrabold font-bengali text-slate-900 dark:text-slate-100">
                     IELTS মাইক্রো-টাস্ক প্রিসেট লাইব্রেরি (রাত)
                   </h3>
-                  <p className="text-xs text-slate-500 font-bengali">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
                     ৫০টিরও বেশি নির্দিষ্ট সেকশন ও টপিক থেকে ১-ক্লিকে রাতের রুটিনে নিন
                   </p>
                 </div>
@@ -581,14 +581,14 @@ export default function NightSlotReview({
 
               <button
                 onClick={() => setIsPresetModalOpen(false)}
-                className="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition-colors"
+                className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Search Bar & Filter Tabs */}
-            <div className="py-3 space-y-2.5 shrink-0 border-b border-slate-100">
+            <div className="py-3 space-y-2.5 shrink-0 border-b border-slate-100 dark:border-slate-800">
               <div className="relative">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 <input
@@ -596,7 +596,7 @@ export default function NightSlotReview({
                   placeholder="টাস্ক সার্চ করুন (যেমন: Cause/Effect, Intro, PEEL, Grammar, Speaking Part 3, Collocations)..."
                   value={presetSearch}
                   onChange={(e) => setPresetSearch(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white font-bengali transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 font-bengali transition-colors placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 />
               </div>
 
@@ -608,7 +608,7 @@ export default function NightSlotReview({
                     className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                       activePresetTab === tab
                         ? 'bg-indigo-600 text-white shadow-xs'
-                        : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                        : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                     }`}
                   >
                     {tab}
@@ -632,7 +632,7 @@ export default function NightSlotReview({
 
                   return (
                     <div key={group.module} className="space-y-2.5">
-                      <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 font-bengali flex items-center gap-2">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bengali flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-indigo-600" />
                         {group.module} ড্রিল ({filteredTasks.length})
                       </h4>
@@ -646,8 +646,8 @@ export default function NightSlotReview({
                               key={preset.id}
                               className={`p-4 rounded-2xl border transition-all flex flex-col justify-between gap-3 ${
                                 isAdded
-                                  ? 'bg-indigo-50/50 border-indigo-300 shadow-xs'
-                                  : 'bg-slate-50/60 border-slate-200 hover:border-slate-300 hover:bg-white'
+                                  ? 'bg-indigo-50/50 dark:bg-indigo-950/30 border-indigo-300 dark:border-indigo-800 shadow-xs'
+                                  : 'bg-slate-50/60 dark:bg-slate-800/40 border-slate-200 dark:border-slate-750 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-white dark:hover:bg-slate-800'
                               }`}
                             >
                               <div className="space-y-1.5">
@@ -655,21 +655,21 @@ export default function NightSlotReview({
                                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border font-mono ${getModuleBadgeColor(group.module)}`}>
                                     {group.module}
                                   </span>
-                                  <div className="flex items-center gap-1 text-xs text-slate-500 font-mono font-bold">
+                                  <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 font-mono font-bold">
                                     <Clock className="w-3.5 h-3.5" />
                                     <span>{preset.defaultTime} min</span>
                                   </div>
                                 </div>
 
-                                <h5 className="text-sm font-bold text-slate-900 font-bengali leading-snug">
+                                <h5 className="text-sm font-bold text-slate-900 dark:text-slate-100 font-bengali leading-snug">
                                   {preset.title}
                                 </h5>
-                                <p className="text-xs text-slate-500 font-bengali leading-relaxed">
+                                <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali leading-relaxed">
                                   {preset.desc}
                                 </p>
                               </div>
 
-                              <div className="pt-2 border-t border-slate-200/60 flex items-center justify-end">
+                              <div className="pt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-end">
                                 <button
                                   onClick={() => handleAddPreset(preset, group.module)}
                                   disabled={isAdded}
@@ -701,13 +701,13 @@ export default function NightSlotReview({
                 })}
             </div>
 
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between shrink-0">
-              <span className="text-xs text-slate-500 font-bengali">
-                রাতে নির্বাচিত: <strong className="text-indigo-600 font-mono">{nightTasks.length}টি টাস্ক</strong>
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0">
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
+                রাতে নির্বাচিত: <strong className="text-indigo-600 dark:text-indigo-400 font-mono">{nightTasks.length}টি টাস্ক</strong>
               </span>
               <button
                 onClick={() => setIsPresetModalOpen(false)}
-                className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold font-bengali transition-all shadow-xs"
+                className="px-6 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-700 hover:bg-slate-800 dark:hover:bg-slate-600 text-white text-xs font-bold font-bengali transition-all shadow-xs"
               >
                 সম্পন্ন
               </button>
@@ -721,21 +721,21 @@ export default function NightSlotReview({
       {/* 5. CUSTOM TASK CREATOR */}
       {/* ======================================================== */}
       {isCustomModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/75 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 dark:text-slate-100">
             
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800">
                   <Plus className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold font-bengali text-slate-900">
+                <h3 className="text-lg font-bold font-bengali text-slate-900 dark:text-slate-100">
                   রাতের কাস্টম টাস্ক তৈরি করুন
                 </h3>
               </div>
               <button
                 onClick={() => setIsCustomModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100"
+                className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -743,7 +743,7 @@ export default function NightSlotReview({
 
             <form onSubmit={handleAddCustomTask} className="mt-5 space-y-4">
               <div>
-                <label className="text-xs font-bold text-slate-600 mb-1.5 block font-bengali">
+                <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1.5 block font-bengali">
                   মডিউল বাছাই করুন
                 </label>
                 <div className="grid grid-cols-4 gap-2">
@@ -754,8 +754,8 @@ export default function NightSlotReview({
                       onClick={() => setCustomModule(m)}
                       className={`py-2 rounded-xl text-xs font-bold border transition-all ${
                         customModule === m
-                          ? 'bg-indigo-50 border-indigo-500 text-indigo-800'
-                          : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                          ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-500 text-indigo-800 dark:text-indigo-300'
+                          : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
                       }`}
                     >
                       {m}
@@ -765,7 +765,7 @@ export default function NightSlotReview({
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-600 mb-1 block font-bengali">
+                <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1 block font-bengali">
                   টাস্কের নাম (Micro-task)
                 </label>
                 <input
@@ -774,12 +774,12 @@ export default function NightSlotReview({
                   placeholder="যেমন: Writing Task 2 Cause/Effect 10 Intro + AI Feedback"
                   value={customTitle}
                   onChange={(e) => setCustomTitle(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:bg-white font-bengali transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 font-bengali transition-colors"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-600 mb-1 block font-bengali">
+                <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1 block font-bengali">
                   বিবরণ (ঐচ্ছিক)
                 </label>
                 <input
@@ -787,12 +787,12 @@ export default function NightSlotReview({
                   placeholder="যেমন: Cambridge 18 Test 2 Essay"
                   value={customDesc}
                   onChange={(e) => setCustomDesc(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:bg-white font-bengali transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 font-bengali transition-colors"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-slate-600 mb-1 block font-bengali">
+                <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1 block font-bengali">
                   সময় (Minutes)
                 </label>
                 <input
@@ -802,15 +802,15 @@ export default function NightSlotReview({
                   step="5"
                   value={customTime}
                   onChange={(e) => setCustomTime(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-500 focus:bg-white transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 transition-colors"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-100 flex justify-end gap-2">
+              <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsCustomModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 font-bengali"
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-bengali"
                 >
                   বাতিল
                 </button>

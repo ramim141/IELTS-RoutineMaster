@@ -214,29 +214,29 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 bg-slate-900/40 backdrop-blur-xs animate-fadeIn">
-      <div className="relative w-full max-w-4xl bg-white border border-slate-200/90 rounded-2xl shadow-xl text-slate-800 max-h-[90vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 bg-slate-900/60 dark:bg-black/80 backdrop-blur-xs animate-fadeIn">
+      <div className="relative w-full max-w-4xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xl text-slate-800 dark:text-slate-100 max-h-[90vh] flex flex-col overflow-hidden">
         
         {/* Minimal Floating Toast */}
         {notification && (
-          <div className="absolute top-3.5 right-14 z-50 px-3 py-1.5 rounded-lg bg-slate-900/90 backdrop-blur-md text-white text-xs font-medium font-bengali shadow-md flex items-center gap-1.5 animate-fadeIn">
+          <div className="absolute top-3.5 right-14 z-50 px-3 py-1.5 rounded-lg bg-slate-900/90 dark:bg-slate-800 text-white text-xs font-medium font-bengali shadow-md flex items-center gap-1.5 animate-fadeIn border border-slate-700">
             <Sparkles className="w-3 h-3 text-amber-300" />
             <span>{notification}</span>
           </div>
         )}
 
         {/* Minimal Header */}
-        <div className="px-5 py-3 border-b border-slate-100 flex items-center justify-between shrink-0 bg-white">
+        <div className="px-5 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-white dark:bg-slate-900">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
               <Zap className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 font-bengali">
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 font-bengali">
                   IELTS Smart Vocab Bank
                 </h3>
-                <span className="text-[11px] font-mono text-slate-400 font-normal hidden sm:inline">
+                <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-normal hidden sm:inline">
                   • 650+ Band 8.0+ Words
                 </span>
               </div>
@@ -245,16 +245,16 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
 
           <div className="flex items-center gap-2">
             {/* Minimal Mastery Counter */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200/80 text-[11px] font-mono text-slate-600">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-[11px] font-mono text-slate-600 dark:text-slate-300">
               <span className="flex items-center gap-1">
-                <Check className="w-3 h-3 text-emerald-600" />
+                <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                 <span>{masteredIds.length}/{IELTS_CURATED_VOCAB.length}</span>
               </span>
             </div>
 
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               title="Close"
             >
               <X className="w-4 h-4" />
@@ -263,15 +263,15 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
         </div>
 
         {/* Minimal Tab Switcher Bar */}
-        <div className="px-5 py-2 bg-slate-50/60 border-b border-slate-100 flex items-center justify-between gap-2 shrink-0">
+        <div className="px-5 py-2 bg-slate-50/60 dark:bg-slate-950/40 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 shrink-0">
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-none py-0.5">
             
             <button
               onClick={() => setActiveTab('flashcards')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium font-bengali transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'flashcards'
-                  ? 'bg-slate-900 text-white shadow-xs font-semibold'
-                  : 'bg-transparent text-slate-600 hover:text-slate-900 hover:bg-white'
+                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs font-semibold'
+                  : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-800'
               }`}
             >
               <Layers className="w-3.5 h-3.5" />
@@ -282,8 +282,8 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
               onClick={() => setActiveTab('wordbank')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium font-bengali transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'wordbank'
-                  ? 'bg-slate-900 text-white shadow-xs font-semibold'
-                  : 'bg-transparent text-slate-600 hover:text-slate-900 hover:bg-white'
+                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs font-semibold'
+                  : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-800'
               }`}
             >
               <BookOpen className="w-3.5 h-3.5" />
@@ -294,8 +294,8 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
               onClick={() => setActiveTab('paraphraser')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium font-bengali transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'paraphraser'
-                  ? 'bg-slate-900 text-white shadow-xs font-semibold'
-                  : 'bg-transparent text-slate-600 hover:text-slate-900 hover:bg-white'
+                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs font-semibold'
+                  : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-800'
               }`}
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -306,8 +306,8 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
               onClick={() => setActiveTab('personal')}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium font-bengali transition-all flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'personal'
-                  ? 'bg-slate-900 text-white shadow-xs font-semibold'
-                  : 'bg-transparent text-slate-600 hover:text-slate-900 hover:bg-white'
+                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs font-semibold'
+                  : 'bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-800'
               }`}
             >
               <Bookmark className="w-3.5 h-3.5" />
@@ -324,7 +324,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                 placeholder="Search word..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-slate-200/90 rounded-lg pl-7 pr-2.5 py-1 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400 shadow-xs"
+                className="w-full bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 rounded-lg pl-7 pr-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-400 shadow-xs"
               />
               <Search className="w-3 h-3 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
@@ -333,7 +333,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
 
         {/* Tab 1: Clean Minimal Interactive Flip Flashcard */}
         {activeTab === 'flashcards' && (
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-50/60">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-50/60 dark:bg-slate-950/20">
             <div className="max-w-lg mx-auto flex flex-col gap-4 min-h-full justify-between">
               
               {/* Top Toolbar: Topic Selector, Shuffle & Counter */}
@@ -346,10 +346,10 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                       setCardIndex(0);
                       setIsRevealed(false);
                     }}
-                    className="appearance-none bg-white hover:bg-slate-50 text-slate-700 font-medium text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400 cursor-pointer shadow-xs transition-colors"
+                    className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 font-medium text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400 cursor-pointer shadow-xs transition-colors"
                   >
                     {IELTS_VOCAB_TOPICS.map(t => (
-                      <option key={t} value={t}>{t}</option>
+                      <option key={t} value={t} className="dark:bg-slate-800 dark:text-slate-200">{t}</option>
                     ))}
                   </select>
                   <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -359,14 +359,14 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                   <button
                     type="button"
                     onClick={handleShuffle}
-                    className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 text-xs font-medium flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
+                    className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-medium flex items-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                     title="Shuffle cards"
                   >
-                    <Shuffle className="w-3.5 h-3.5 text-slate-500" />
+                    <Shuffle className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
                     <span className="hidden sm:inline font-bengali">র‍্যান্ডম</span>
                   </button>
 
-                  <span className="text-xs font-mono text-slate-500 font-medium min-w-[50px] text-right">
+                  <span className="text-xs font-mono text-slate-500 dark:text-slate-400 font-medium min-w-[50px] text-right">
                     {filteredWords.length > 0 ? cardIndex + 1 : 0} / {filteredWords.length}
                   </span>
                 </div>
@@ -376,16 +376,16 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
               {currentCard ? (
                 <div 
                   onClick={() => setIsRevealed(prev => !prev)}
-                  className="w-full bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-sm flex flex-col justify-between min-h-[300px] transition-all duration-150 cursor-pointer select-none group space-y-4 my-auto"
+                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-sm flex flex-col justify-between min-h-[300px] transition-all duration-150 cursor-pointer select-none group space-y-4 my-auto"
                 >
                   
                   {/* Card Top: Topic & Controls */}
                   <div className="flex items-center justify-between gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center gap-1.5">
-                      <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-medium">
+                      <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/80 text-slate-600 dark:text-slate-300 text-[10px] font-medium">
                         {currentCard.topic}
                       </span>
-                      <span className="px-1.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-semibold font-mono">
+                      <span className="px-1.5 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 text-[10px] font-semibold font-mono border border-indigo-100 dark:border-indigo-900/50">
                         Band 8.0+
                       </span>
                     </div>
@@ -397,7 +397,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                           e.stopPropagation();
                           speakWord(currentCard.word);
                         }}
-                        className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
                         title="উচ্চারণ শুনুন (British Accent)"
                       >
                         <Volume2 className="w-4 h-4" />
@@ -410,8 +410,8 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                         }}
                         className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                           isCurrentMastered
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-                            : 'bg-white text-slate-400 border-slate-200 hover:text-slate-600 hover:border-slate-300'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800'
+                            : 'bg-white dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700 hover:text-slate-600 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-slate-600'
                         }`}
                         title={isCurrentMastered ? 'Mastered word' : 'Mark as mastered'}
                       >
@@ -424,13 +424,13 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                   {!isRevealed ? (
                     /* FRONT SIDE (Word & Active Recall) */
                     <div className="flex-1 flex flex-col items-center justify-center text-center py-10 space-y-2 animate-fadeIn">
-                      <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-mono group-hover:text-indigo-950 transition-colors">
+                      <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight font-mono group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                         {currentCard.word}
                       </h2>
-                      <div className="flex items-center justify-center gap-2 text-xs text-slate-400 font-mono">
+                      <div className="flex items-center justify-center gap-2 text-xs text-slate-400 dark:text-slate-500 font-mono">
                         <span>{currentCard.phonetic}</span>
                         <span>•</span>
-                        <span className="italic text-slate-500 font-serif">{currentCard.pos}</span>
+                        <span className="italic text-slate-500 dark:text-slate-400 font-serif">{currentCard.pos}</span>
                       </div>
                     </div>
                   ) : (
@@ -438,12 +438,12 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                     <div className="space-y-3 py-1 text-left animate-fadeIn">
                       
                       {/* Header summary */}
-                      <div className="border-b border-slate-100 pb-2">
+                      <div className="border-b border-slate-100 dark:border-slate-700 pb-2">
                         <div className="flex items-center justify-between gap-2 flex-wrap">
-                          <span className="font-mono font-bold text-slate-900 text-base sm:text-lg">
+                          <span className="font-mono font-bold text-slate-900 dark:text-slate-100 text-base sm:text-lg">
                             {currentCard.word}
                           </span>
-                          <span className="text-[11px] font-mono text-slate-500 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded">
+                          <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 px-2 py-0.5 rounded">
                             {currentCard.phonetic} • {currentCard.pos}
                           </span>
                         </div>
@@ -451,16 +451,16 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
 
                       {/* English Meaning */}
                       <div>
-                        <p className="text-xs sm:text-sm text-slate-800 leading-relaxed">
+                        <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
                           {currentCard.meaning}
                         </p>
                       </div>
 
                       {/* Bengali Translation */}
-                      <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                      <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700/80">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-xs text-slate-400 font-bengali shrink-0">বাংলা অর্থ:</span>
-                          <span className="text-xs sm:text-sm font-bold text-slate-900 font-bengali">
+                          <span className="text-xs text-slate-400 dark:text-slate-500 font-bengali shrink-0">বাংলা অর্থ:</span>
+                          <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 font-bengali">
                             {currentCard.bnMeaning}
                           </span>
                         </div>
@@ -469,14 +469,14 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                       {/* Collocations */}
                       {currentCard.collocations && currentCard.collocations.length > 0 && (
                         <div className="space-y-1">
-                          <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 font-semibold block">
+                          <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-500 font-semibold block">
                             Collocations
                           </span>
                           <div className="flex flex-wrap gap-1.5">
                             {currentCard.collocations.map((c, idx) => (
                               <span 
                                 key={idx} 
-                                className="text-xs font-mono bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md"
+                                className="text-xs font-mono bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-2 py-0.5 rounded-md"
                               >
                                 {c}
                               </span>
@@ -488,7 +488,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                       {/* IELTS Example Sentence */}
                       {currentCard.example && (
                         <div className="pt-0.5">
-                          <p className="text-xs italic text-slate-600 border-l-2 border-indigo-400 pl-2.5 py-1 bg-indigo-50/20 rounded-r-md">
+                          <p className="text-xs italic text-slate-600 dark:text-slate-300 border-l-2 border-indigo-400 dark:border-indigo-500 pl-2.5 py-1 bg-indigo-50/20 dark:bg-indigo-950/20 rounded-r-md">
                             "{currentCard.example}"
                           </p>
                         </div>
@@ -498,7 +498,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                   )}
 
                   {/* Card Bottom: Flip Hint */}
-                  <div className="pt-2.5 border-t border-slate-100 flex items-center justify-center text-xs text-slate-400 group-hover:text-slate-600 transition-colors font-bengali shrink-0">
+                  <div className="pt-2.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-center text-xs text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors font-bengali shrink-0">
                     <div className="flex items-center gap-1.5">
                       <RotateCcw className="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform duration-300" />
                       <span>{!isRevealed ? 'কার্ডে ক্লিক করে অর্থ দেখুন (Space)' : 'কার্ডে ক্লিক করে সামনের পাশে ফিরুন'}</span>
@@ -517,7 +517,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={(e) => handlePrevCard(e)}
-                  className="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 text-xs font-medium flex items-center gap-2 shadow-xs transition-all active:scale-95 font-bengali cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-medium flex items-center gap-2 shadow-xs transition-all active:scale-95 font-bengali cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>আগের শব্দ</span>
@@ -532,7 +532,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                   className={`px-4 py-2 rounded-xl text-xs font-medium font-bengali flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer ${
                     isCurrentMastered
                       ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs'
-                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                      : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200'
                   }`}
                 >
                   <Check className="w-4 h-4 stroke-[2.5]" />
@@ -542,7 +542,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={(e) => handleNextCard(e)}
-                  className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium flex items-center gap-2 shadow-xs transition-all active:scale-95 font-bengali cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-medium flex items-center gap-2 shadow-xs transition-all active:scale-95 font-bengali cursor-pointer"
                 >
                   <span>পরের শব্দ</span>
                   <ArrowRight className="w-4 h-4" />
@@ -555,7 +555,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
 
         {/* Tab 2: Minimal Word Bank Explorer */}
         {activeTab === 'wordbank' && (
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-white">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 bg-white dark:bg-slate-900">
             
             {/* Topic Filter Tabs */}
             <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1">
@@ -565,8 +565,8 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                   onClick={() => setSelectedTopic(topic)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all whitespace-nowrap ${
                     selectedTopic === topic
-                      ? 'bg-slate-900 text-white font-semibold'
-                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
+                      ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-semibold'
+                      : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
                   }`}
                 >
                   {topic}
@@ -583,23 +583,25 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                   <div 
                     key={item.id}
                     className={`p-3.5 rounded-xl border transition-all ${
-                      isMastered ? 'bg-slate-50 border-slate-300' : 'bg-white border-slate-200 hover:border-slate-300'
+                      isMastered 
+                        ? 'bg-slate-50 dark:bg-slate-800/80 border-slate-300 dark:border-slate-700' 
+                        : 'bg-white dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                     }`}
                   >
-                    <div className="flex items-start justify-between gap-2 border-b border-slate-100 pb-2 mb-2">
+                    <div className="flex items-start justify-between gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-2 mb-2">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-bold font-mono text-slate-900">
+                          <h4 className="text-sm font-bold font-mono text-slate-900 dark:text-slate-100">
                             {item.word}
                           </h4>
-                          <span className="text-[10px] font-mono text-slate-400 italic">
+                          <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 italic">
                             {item.phonetic}
                           </span>
-                          <span className="text-[9px] font-mono bg-slate-100 px-1 py-0.2 rounded text-slate-600">
+                          <span className="text-[9px] font-mono bg-slate-100 dark:bg-slate-700 px-1 py-0.2 rounded text-slate-600 dark:text-slate-300">
                             {item.pos}
                           </span>
                         </div>
-                        <p className="text-xs text-slate-700 font-medium font-bengali mt-0.5">
+                        <p className="text-xs text-slate-700 dark:text-slate-300 font-medium font-bengali mt-0.5">
                           {item.bnMeaning}
                         </p>
                       </div>
@@ -607,7 +609,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                       <div className="flex items-center gap-1">
                         <button
                           onClick={() => speakWord(item.word)}
-                          className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                          className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                           title="Listen"
                         >
                           <Volume2 className="w-3.5 h-3.5" />
@@ -616,8 +618,8 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                           onClick={() => toggleMastery(item.id)}
                           className={`p-1 rounded-lg border text-xs ${
                             isMastered 
-                              ? 'bg-slate-900 text-white border-slate-900' 
-                              : 'bg-white text-slate-400 border-slate-200 hover:border-slate-400'
+                              ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 border-slate-900 dark:border-slate-100' 
+                              : 'bg-white dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700 hover:border-slate-400'
                           }`}
                           title="Mark as Mastered"
                         >
@@ -626,12 +628,12 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-600 mb-1.5 leading-relaxed">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 mb-1.5 leading-relaxed">
                       {item.meaning}
                     </p>
 
                     {item.example && (
-                      <p className="text-[11px] text-slate-500 italic bg-slate-50 p-1.5 rounded border border-slate-100">
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-900/60 p-1.5 rounded border border-slate-100 dark:border-slate-800">
                         "{item.example}"
                       </p>
                     )}
@@ -645,20 +647,20 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
 
         {/* Tab 3: Minimal Band 8+ Paraphrase Replacer Matrix */}
         {activeTab === 'paraphraser' && (
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 bg-white">
-            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2 text-xs text-slate-700 font-bengali">
-              <Lightbulb className="w-4 h-4 text-slate-500 shrink-0" />
+          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 bg-white dark:bg-slate-900">
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 font-bengali">
+              <Lightbulb className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
               <span>সাধারণ Band 6 শব্দগুলোর বদলে এই হাই-ব্যান্ড অলটারনেটিভগুলো ব্যবহার করলে Lexical Resource স্কোর বৃদ্ধি পায়।</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {BAND_PARAPHRASE_REPLACEMENTS.map((item, idx) => (
-                <div key={idx} className="p-3.5 rounded-xl border border-slate-200 hover:border-slate-300 bg-white space-y-2.5">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-100">
-                    <span className="text-xs font-mono font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
+                <div key={idx} className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-800/50 space-y-2.5">
+                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 dark:border-slate-700">
+                    <span className="text-xs font-mono font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded">
                       Basic: {item.simple}
                     </span>
-                    <span className="text-[10px] font-mono text-slate-500">
+                    <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
                       Band 8.0+ Upgrades
                     </span>
                   </div>
@@ -668,7 +670,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                       <button
                         key={uIdx}
                         onClick={() => copyToClipboard(u)}
-                        className="px-2 py-0.5 rounded bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-mono font-medium transition-colors"
+                        className="px-2 py-0.5 rounded bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-mono font-medium transition-colors"
                         title="কপি করতে ক্লিক করুন"
                       >
                         {u}
@@ -676,8 +678,8 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                     ))}
                   </div>
 
-                  <div className="bg-slate-50 p-2 rounded text-xs border border-slate-100">
-                    <p className="italic text-slate-700">
+                  <div className="bg-slate-50 dark:bg-slate-900/60 p-2 rounded text-xs border border-slate-100 dark:border-slate-800">
+                    <p className="italic text-slate-700 dark:text-slate-300">
                       "{item.band8Sentence}"
                     </p>
                   </div>
@@ -686,19 +688,19 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
             </div>
 
             {/* High-Scoring Collocations */}
-            <div className="pt-2 border-t border-slate-100">
-              <h4 className="text-xs font-bold font-bengali text-slate-900 mb-2">
+            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+              <h4 className="text-xs font-bold font-bengali text-slate-900 dark:text-slate-100 mb-2">
                 মাস্টার কলোকেশন ও এক্সপ্রেশন
               </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {HIGH_BAND_COLLOCATIONS.map((c, i) => (
-                  <div key={i} className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 space-y-0.5">
+                  <div key={i} className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-0.5">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono font-semibold text-slate-900">{c.phrase}</span>
-                      <span className="text-[10px] text-slate-500 font-bengali">{c.meaning}</span>
+                      <span className="text-xs font-mono font-semibold text-slate-900 dark:text-slate-100">{c.phrase}</span>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bengali">{c.meaning}</span>
                     </div>
-                    <p className="text-[11px] text-slate-600 italic">"{c.example}"</p>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 italic">"{c.example}"</p>
                   </div>
                 ))}
               </div>
@@ -709,21 +711,21 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
 
         {/* Tab 4: Minimal Personal Word Vault */}
         {activeTab === 'personal' && (
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 bg-white">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 bg-white dark:bg-slate-900">
             
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-sm font-bold font-bengali text-slate-900">
+                <h4 className="text-sm font-bold font-bengali text-slate-900 dark:text-slate-100">
                   আপনার ব্যক্তিগত শব্দভাণ্ডার ({personalWords.length}টি শব্দ)
                 </h4>
-                <p className="text-xs text-slate-500 font-bengali">
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
                   টেস্টে পাওয়া নতুন শব্দগুলো এখানে টুকে রাখুন
                 </p>
               </div>
 
               <button
                 onClick={() => setIsAddCustomOpen(true)}
-                className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium font-bengali flex items-center gap-1.5 shadow-xs transition-all"
+                className="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-medium font-bengali flex items-center gap-1.5 shadow-xs transition-all"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>নতুন শব্দ যোগ করুন</span>
@@ -731,10 +733,10 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
             </div>
 
             {isAddCustomOpen && (
-              <form onSubmit={handleAddPersonalWord} className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5 animate-fadeIn">
-                <div className="flex items-center justify-between pb-1.5 border-b border-slate-200">
-                  <span className="text-xs font-bold font-bengali text-slate-800">নতুন শব্দ এন্ট্রি</span>
-                  <button type="button" onClick={() => setIsAddCustomOpen(false)} className="text-slate-400 hover:text-slate-600">
+              <form onSubmit={handleAddPersonalWord} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-2.5 animate-fadeIn">
+                <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-700">
+                  <span className="text-xs font-bold font-bengali text-slate-800 dark:text-slate-200">নতুন শব্দ এন্ট্রি</span>
+                  <button type="button" onClick={() => setIsAddCustomOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
@@ -747,14 +749,14 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                       placeholder="Word (e.g. Ubiquitous)"
                       value={newWord}
                       onChange={(e) => setNewWord(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
                     />
                   </div>
                   <div>
                     <select
                       value={newPos}
                       onChange={(e) => setNewPos(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
                     >
                       <option value="Noun">Noun</option>
                       <option value="Verb">Verb</option>
@@ -772,14 +774,14 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                     placeholder="English Meaning"
                     value={newMeaning}
                     onChange={(e) => setNewMeaning(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
                   />
                   <input
                     type="text"
                     placeholder="বাংলা অর্থ (ঐচ্ছিক)"
                     value={newBnMeaning}
                     onChange={(e) => setNewBnMeaning(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
                   />
                 </div>
 
@@ -788,20 +790,20 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                   placeholder="Example Sentence (ঐচ্ছিক)"
                   value={newExample}
                   onChange={(e) => setNewExample(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
                 />
 
                 <div className="flex justify-end gap-2 pt-1">
                   <button
                     type="button"
                     onClick={() => setIsAddCustomOpen(false)}
-                    className="px-2.5 py-1 rounded text-xs text-slate-600 hover:bg-slate-200"
+                    className="px-2.5 py-1 rounded text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
                   >
                     বাতিল
                   </button>
                   <button
                     type="submit"
-                    className="px-3.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold font-bengali"
+                    className="px-3.5 py-1 rounded bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-semibold font-bengali"
                   >
                     সেভ করুন
                   </button>
@@ -810,42 +812,42 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
             )}
 
             {personalWords.length === 0 ? (
-              <div className="text-center py-10 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50/50 space-y-1.5">
-                <Bookmark className="w-6 h-6 text-slate-300 mx-auto" />
-                <p className="text-xs text-slate-500 font-bengali">
+              <div className="text-center py-10 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 space-y-1.5">
+                <Bookmark className="w-6 h-6 text-slate-300 dark:text-slate-600 mx-auto" />
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
                   ব্যক্তিগত শব্দভাণ্ডারে এখনো কোনো শব্দ যোগ করা হয়নি।
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {personalWords.map((word) => (
-                  <div key={word.id} className="p-3 rounded-xl border border-slate-200 bg-white space-y-1.5">
+                  <div key={word.id} className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/60 space-y-1.5">
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <h5 className="text-sm font-bold font-mono text-slate-900">{word.word}</h5>
-                          <span className="text-[9px] font-mono bg-slate-100 text-slate-600 px-1 py-0.2 rounded">{word.pos}</span>
+                          <h5 className="text-sm font-bold font-mono text-slate-900 dark:text-slate-100">{word.word}</h5>
+                          <span className="text-[9px] font-mono bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-1 py-0.2 rounded">{word.pos}</span>
                         </div>
                         {word.bnMeaning && (
-                          <span className="text-xs text-slate-700 font-bengali block">
+                          <span className="text-xs text-slate-700 dark:text-slate-300 font-bengali block">
                             {word.bnMeaning}
                           </span>
                         )}
                       </div>
 
                       <div className="flex items-center gap-1">
-                        <button onClick={() => speakWord(word.word)} className="p-1 text-slate-400 hover:text-slate-700">
+                        <button onClick={() => speakWord(word.word)} className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
                           <Volume2 className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={() => handleDeletePersonalWord(word.id)} className="p-1 text-slate-400 hover:text-rose-600">
+                        <button onClick={() => handleDeletePersonalWord(word.id)} className="p-1 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-600">{word.meaning}</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-300">{word.meaning}</p>
                     {word.example && (
-                      <p className="text-[11px] italic text-slate-500 border-l border-slate-300 pl-2">
+                      <p className="text-[11px] italic text-slate-500 dark:text-slate-400 border-l border-slate-300 dark:border-slate-600 pl-2">
                         "{word.example}"
                       </p>
                     )}
@@ -858,14 +860,14 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
         )}
 
         {/* Minimal Footer */}
-        <div className="px-5 sm:px-6 py-2.5 border-t border-slate-100 flex items-center justify-between shrink-0 bg-slate-50/50">
-          <span className="text-[11px] text-slate-400 font-bengali">
+        <div className="px-5 sm:px-6 py-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-slate-50/50 dark:bg-slate-950/40">
+          <span className="text-[11px] text-slate-400 dark:text-slate-500 font-bengali">
             * কিবোর্ড শর্টকাট: ← আগের শব্দ | → পরের শব্দ | Space অর্থ টগল
           </span>
 
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium font-bengali transition-all active:scale-95"
+            className="px-4 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-medium font-bengali transition-all active:scale-95"
           >
             বন্ধ করুন
           </button>
