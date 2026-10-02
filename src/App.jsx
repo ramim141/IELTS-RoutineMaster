@@ -10,6 +10,7 @@ import NightSlotReview from './components/NightSlotReview';
 import CambridgeMasterTracker from './components/CambridgeMasterTracker';
 import MistakeLogDiary from './components/MistakeLogDiary';
 import IeltsVocabVault from './components/IeltsVocabVault';
+import FloatingQuickActionDock from './components/FloatingQuickActionDock';
 import { 
   Sun, 
   CloudSun, 
@@ -225,7 +226,17 @@ export default function App() {
   const completedNight = nightTasks.filter(t => t.completed).length;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col selection:bg-indigo-100 selection:text-indigo-900 relative">
+      {/* Floating Quick Action Dock on the Left */}
+      <FloatingQuickActionDock
+        onOpenVocabVault={() => setIsVocabVaultOpen(true)}
+        onOpenCambridgeTracker={() => setIsCambridgeTrackerOpen(true)}
+        onOpenMistakeDiary={() => setIsMistakeDiaryOpen(true)}
+        onOpenSettings={() => setIsSetupModalOpen(true)}
+        currentDay={currentDay}
+        streak={streak}
+      />
+
       {/* Top Navigation */}
       <Header
         targetSettings={targetSettings}
@@ -504,7 +515,7 @@ export default function App() {
 
         {/* 1. MORNING SLOT PAGE */}
         {(activeSlotStep === 'morning' || activeSlotStep === 'all') && (
-          <section className="space-y-4 animate-fadeIn">
+          <section id="morning-planner" className="space-y-4 animate-fadeIn scroll-mt-20">
             <MorningSlotPlanner
               currentDay={currentDay}
               dailyTasks={currentDailyTasks}
@@ -537,7 +548,7 @@ export default function App() {
 
         {/* 2. AFTERNOON SLOT PAGE */}
         {(activeSlotStep === 'afternoon' || activeSlotStep === 'all') && (
-          <section className="space-y-4 animate-fadeIn">
+          <section id="afternoon-slot" className="space-y-4 animate-fadeIn scroll-mt-20">
             <AfternoonSlotPractice
               currentDay={currentDay}
               dailyTasks={currentDailyTasks}
@@ -577,7 +588,7 @@ export default function App() {
 
         {/* 3. PRACTICE TRACK SLOT PAGE */}
         {(activeSlotStep === 'practice' || activeSlotStep === 'all') && (
-          <section className="space-y-4 animate-fadeIn">
+          <section id="practice-slots" className="space-y-4 animate-fadeIn scroll-mt-20">
             <PracticeTrackSlot
               currentDay={currentDay}
               dailyTasks={currentDailyTasks}
@@ -617,7 +628,7 @@ export default function App() {
 
         {/* 4. NIGHT SLOT PAGE */}
         {(activeSlotStep === 'night' || activeSlotStep === 'all') && (
-          <section className="space-y-4 animate-fadeIn">
+          <section id="night-review" className="space-y-4 animate-fadeIn scroll-mt-20">
             <NightSlotReview
               currentDay={currentDay}
               dailyTasks={currentDailyTasks}
