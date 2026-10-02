@@ -258,7 +258,7 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                   <select
                     value={selectedBook}
                     onChange={(e) => setSelectedBook(e.target.value)}
-                    className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 font-mono font-semibold text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer shadow-xs"
+                    className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono font-semibold text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer shadow-xs"
                   >
                     {CAMBRIDGE_BOOKS.map((book) => {
                       const stats = getBookProgress(book);
@@ -287,7 +287,7 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                 <select
                   value={selectedModuleFilter}
                   onChange={(e) => setSelectedModuleFilter(e.target.value)}
-                  className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 font-mono font-medium text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer shadow-xs"
+                  className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono font-medium text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer shadow-xs"
                 >
                   <option value="All" className="dark:bg-slate-800 dark:text-slate-200">All Modules (160)</option>
                   <option value="Listening" className="dark:bg-slate-800 dark:text-slate-200">Listening ({getModuleGlobalStats('Listening').done}/40)</option>
@@ -377,7 +377,7 @@ export default function CambridgeMasterTracker({ isOpen, onClose }) {
                             className={`px-2.5 py-1.5 rounded-lg border flex items-center justify-between gap-2.5 transition-all ${
                               unit.done 
                                 ? 'bg-slate-50 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100' 
-                                : 'bg-white dark:bg-slate-850 dark:bg-slate-800/30 border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 text-slate-600 dark:text-slate-300'
+                                : 'bg-white dark:bg-slate-800/40 border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 text-slate-600 dark:text-slate-300'
                             }`}
                           >
                             {/* Checkbox & Name */}

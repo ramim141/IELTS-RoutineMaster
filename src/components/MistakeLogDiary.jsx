@@ -253,7 +253,7 @@ export default function MistakeLogDiary({ isOpen, onClose, tasksByDay = {}, curr
               {filteredMistakes.map((entry) => (
                 <div
                   key={entry.id}
-                  className="p-4 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-750 dark:border-slate-800 shadow-xs hover:border-rose-300 dark:hover:border-rose-700 hover:shadow-sm transition-all space-y-2.5 flex flex-col justify-between"
+                  className="p-4 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-800 shadow-xs hover:border-rose-300 dark:hover:border-rose-700 hover:shadow-sm transition-all space-y-2.5 flex flex-col justify-between"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">

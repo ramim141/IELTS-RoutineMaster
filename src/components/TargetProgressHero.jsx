@@ -87,7 +87,7 @@ export default function TargetProgressHero({
       {/* ======================================================== */}
       {/* 1. TOP HEADER BAR: Current Phase & Smart Day Controls */}
       {/* ======================================================== */}
-      <div className="px-6 py-4 bg-slate-50/70 dark:bg-slate-850/70 border-b border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+      <div className="px-6 py-4 bg-slate-50/70 dark:bg-slate-900/90 border-b border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs text-xs font-bold text-slate-800 dark:text-slate-200">
             <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400 animate-pulse" />
@@ -143,7 +143,7 @@ export default function TargetProgressHero({
       <div className="p-6 sm:p-7 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         
         {/* LEFT: Hero Circular Dial & Current Day Highlight */}
-        <div className="lg:col-span-5 flex items-center gap-5 p-5 rounded-2xl bg-gradient-to-br from-slate-50 via-indigo-50/20 to-white dark:from-slate-800/80 dark:via-indigo-950/20 dark:to-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs">
+        <div className="lg:col-span-5 flex items-center gap-5 p-5 rounded-2xl bg-gradient-to-br from-slate-50 via-indigo-50/20 to-white dark:from-slate-800/80 dark:via-indigo-950/20 dark:to-slate-800/60 border border-slate-200/80 dark:border-slate-700 shadow-xs">
           {/* Radial Progress Gauge */}
           <div className="relative w-28 h-28 shrink-0 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
@@ -206,7 +206,7 @@ export default function TargetProgressHero({
         <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-3">
           
           {/* 1. Countdown Days Left */}
-          <div className="group p-4 rounded-2xl bg-amber-50/50 dark:bg-amber-950/20 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/70 dark:border-amber-800/50 transition-all hover:scale-[1.02] shadow-xs flex flex-col justify-between">
+          <div className="group p-4 rounded-2xl bg-amber-50/50 dark:bg-slate-800/80 hover:bg-amber-50 dark:hover:bg-slate-800 border border-amber-200/70 dark:border-slate-700 transition-all hover:scale-[1.02] shadow-xs flex flex-col justify-between">
             <div className="flex items-center justify-between text-amber-800 dark:text-amber-300">
               <span className="text-[11px] font-bold font-bengali">বাকি দিন</span>
               <div className="p-1 rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300">
@@ -222,7 +222,7 @@ export default function TargetProgressHero({
           </div>
 
           {/* 2. Target Band */}
-          <div className="group p-4 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/20 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 border border-indigo-200/70 dark:border-indigo-800/50 transition-all hover:scale-[1.02] shadow-xs flex flex-col justify-between">
+          <div className="group p-4 rounded-2xl bg-indigo-50/50 dark:bg-slate-800/80 hover:bg-indigo-50 dark:hover:bg-slate-800 border border-indigo-200/70 dark:border-slate-700 transition-all hover:scale-[1.02] shadow-xs flex flex-col justify-between">
             <div className="flex items-center justify-between text-indigo-800 dark:text-indigo-300">
               <span className="text-[11px] font-bold font-bengali">টার্গেট ব্যান্ড</span>
               <div className="p-1 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300">
@@ -238,7 +238,7 @@ export default function TargetProgressHero({
           </div>
 
           {/* 3. Daily Study Goal */}
-          <div className="group p-4 rounded-2xl bg-purple-50/50 dark:bg-purple-950/20 hover:bg-purple-50 dark:hover:bg-purple-950/30 border border-purple-200/70 dark:border-purple-800/50 transition-all hover:scale-[1.02] shadow-xs flex flex-col justify-between">
+          <div className="group p-4 rounded-2xl bg-purple-50/50 dark:bg-slate-800/80 hover:bg-purple-50 dark:hover:bg-slate-800 border border-purple-200/70 dark:border-slate-700 transition-all hover:scale-[1.02] shadow-xs flex flex-col justify-between">
             <div className="flex items-center justify-between text-purple-800 dark:text-purple-300">
               <span className="text-[11px] font-bold font-bengali">দৈনিক স্টাডি</span>
               <div className="p-1 rounded-lg bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300">
@@ -254,7 +254,7 @@ export default function TargetProgressHero({
           </div>
 
           {/* 4. Preparation Pace */}
-          <div className="group p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/50 transition-all hover:scale-[1.02] shadow-xs flex flex-col justify-between">
+          <div className="group p-4 rounded-2xl bg-emerald-50/50 dark:bg-slate-800/80 hover:bg-emerald-50 dark:hover:bg-slate-800 border border-emerald-200/70 dark:border-slate-700 transition-all hover:scale-[1.02] shadow-xs flex flex-col justify-between">
             <div className="flex items-center justify-between text-emerald-800 dark:text-emerald-300">
               <span className="text-[11px] font-bold font-bengali">রোডম্যাপ পেস</span>
               <div className="p-1 rounded-lg bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300">
@@ -276,7 +276,7 @@ export default function TargetProgressHero({
       {/* ======================================================== */}
       {/* 3. INTEGRATED 3-PHASE STEP PROGRESS TRACKER */}
       {/* ======================================================== */}
-      <div className="px-6 py-4 bg-slate-50/50 dark:bg-slate-850/50 border-t border-slate-100 dark:border-slate-800 space-y-2">
+      <div className="px-6 py-4 bg-slate-50/50 dark:bg-slate-900/90 border-t border-slate-100 dark:border-slate-800 space-y-2">
         <div className="flex items-center justify-between text-xs">
           <span className="font-bold text-slate-700 dark:text-slate-300 font-bengali flex items-center gap-1.5">
             <TrendingUp className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
@@ -314,7 +314,7 @@ export default function TargetProgressHero({
       {/* ======================================================== */}
       {/* 4. CLEAN FULLY-AUTOMATIC IELTS PRO TIP TICKER (30s AUTO ROTATE) */}
       {/* ======================================================== */}
-      <div className="relative px-6 py-3.5 bg-gradient-to-r from-indigo-700 via-indigo-800 to-slate-900 dark:from-indigo-900 dark:via-slate-900 dark:to-black text-white flex items-center justify-between gap-4 overflow-hidden">
+      <div className="relative px-6 py-3.5 bg-gradient-to-r from-indigo-700 via-indigo-800 to-slate-900 dark:from-indigo-950 dark:via-slate-900 dark:to-slate-950 text-white flex items-center justify-between gap-4 overflow-hidden border-t border-transparent dark:border-slate-800">
         
         {/* Subtle 30s cycle pulse bar */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-indigo-500/20 overflow-hidden">

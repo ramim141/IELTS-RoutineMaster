@@ -172,7 +172,7 @@ export default function TaskAccordionItem({
       {/* EXPANDABLE ACCORDION DRAWER: Topic, Mistake Log, Vocab */}
       {/* ======================================================== */}
       {isExpanded && (
-        <div className="px-5 pb-5 pt-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-850/60 space-y-4 animate-fadeIn">
+        <div className="px-5 pb-5 pt-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/40 space-y-4 animate-fadeIn">
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             

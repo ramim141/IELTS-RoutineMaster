@@ -423,7 +423,7 @@ export default function NightSlotReview({
         {/* ======================================================== */}
         {/* EXTRA NIGHT TOOL: Official IELTS Band Score Calculator */}
         {/* ======================================================== */}
-        <div className="p-6 rounded-3xl bg-slate-50/90 dark:bg-slate-850 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700/80 space-y-4">
+        <div className="p-6 rounded-3xl bg-slate-50/90 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700/80 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-700/80 pb-3 flex-wrap gap-3">
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-xl bg-indigo-600 text-white shadow-xs">
@@ -647,7 +647,7 @@ export default function NightSlotReview({
                               className={`p-4 rounded-2xl border transition-all flex flex-col justify-between gap-3 ${
                                 isAdded
                                   ? 'bg-indigo-50/50 dark:bg-indigo-950/30 border-indigo-300 dark:border-indigo-800 shadow-xs'
-                                  : 'bg-slate-50/60 dark:bg-slate-800/40 border-slate-200 dark:border-slate-750 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-white dark:hover:bg-slate-800'
+                                  : 'bg-slate-50/60 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-white dark:hover:bg-slate-800'
                               }`}
                             >
                               <div className="space-y-1.5">

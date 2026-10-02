@@ -346,7 +346,7 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
                       setCardIndex(0);
                       setIsRevealed(false);
                     }}
-                    className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 font-medium text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400 cursor-pointer shadow-xs transition-colors"
+                    className="appearance-none bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium text-xs pl-3 pr-7 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-400 cursor-pointer shadow-xs transition-colors"
                   >
                     {IELTS_VOCAB_TOPICS.map(t => (
                       <option key={t} value={t} className="dark:bg-slate-800 dark:text-slate-200">{t}</option>
