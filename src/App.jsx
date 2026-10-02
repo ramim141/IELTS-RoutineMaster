@@ -641,6 +641,20 @@ export default function App() {
 
       </main>
 
+      {/* Cambridge Master Book Tracker Modal */}
+      <CambridgeMasterTracker
+        isOpen={isCambridgeTrackerOpen}
+        onClose={() => setIsCambridgeTrackerOpen(false)}
+      />
+
+      {/* Mistake Log Diary Modal */}
+      <MistakeLogDiary
+        isOpen={isMistakeDiaryOpen}
+        onClose={() => setIsMistakeDiaryOpen(false)}
+        tasksByDay={tasksByDay}
+        currentDay={currentDay}
+      />
+
       {/* Target Setup Modal */}
       <TargetSetupModal
         isOpen={isSetupModalOpen}
