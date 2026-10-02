@@ -409,70 +409,7 @@ export default function PracticeTrackSlot({
         )}
       </div>
 
-      {/* 4. Practice Task List with Accordion */}
-      <div className="p-6">
-        {practiceTasks.length === 0 ? (
-          <div className="text-center py-10 px-4 border-2 border-dashed border-teal-200/80 rounded-2xl bg-teal-50/20 space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-teal-100 text-teal-600 flex items-center justify-center mx-auto shadow-xs">
-              <Target className="w-6 h-6" />
-            </div>
-            <h3 className="text-base font-bold text-slate-800 font-bengali">
-              প্র্যাকটিস ট্র্যাক স্লটে এখনো কোনো টেস্ট বা ড্রিল যোগ করা হয়নি!
-            </h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto font-bengali">
-              কেমব্রিজ টেস্ট বা নির্দিষ্ট প্রশ্ন প্র্যাকটিস করতে উপরের <strong>Cambridge Quick Logger</strong> অথবা <strong>প্র্যাকটিস প্রিসেট লাইব্রেরি</strong> ব্যবহার করুন।
-            </p>
-            <div className="flex justify-center gap-3 pt-2">
-              <button
-                onClick={() => setIsPresetModalOpen(true)}
-                className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold font-bengali flex items-center gap-2 shadow-sm transition-all"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                প্র্যাকটিস টাস্ক সিলেক্ট করুন
-              </button>
-              <button
-                onClick={handleAutoSuggestPractice}
-                className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold font-bengali flex items-center gap-1.5 transition-all shadow-xs"
-              >
-                <Wand2 className="w-3.5 h-3.5 text-teal-600" />
-                কুইক প্র্যাকটিস রুটিন
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between text-xs text-slate-400 font-bold px-1 uppercase font-bengali">
-              <span>প্র্যাকটিস ট্র্যাকের টাস্ক তালিকা ({practiceTasks.length})</span>
-              <span>সময় ও বিস্তারিত নোট</span>
-            </div>
 
-            <div className="grid grid-cols-1 gap-3">
-              {practiceTasks.map((task) => (
-                <TaskAccordionItem
-                  key={task.id}
-                  task={task}
-                  currentDay={currentDay}
-                  onToggleComplete={handleToggleComplete}
-                  onShiftToNextDay={onShiftTaskToNextDay}
-                  onDelete={handleRemoveTask}
-                  onUpdateTaskDetails={handleUpdateTaskDetails}
-                  slotColor="teal"
-                />
-              ))}
-            </div>
-
-            <div className="pt-2 flex justify-center">
-              <button
-                onClick={() => setIsPresetModalOpen(true)}
-                className="text-xs font-bold text-teal-600 hover:text-teal-800 font-bengali flex items-center gap-1.5 py-2 px-4 rounded-xl hover:bg-teal-50 transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                প্র্যাকটিস ট্র্যাকে আরো টাস্ক যুক্ত করুন
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
 
       {/* ======================================================== */}
       {/* 5. PRESET MODAL WITH INSTANT SEARCH */}

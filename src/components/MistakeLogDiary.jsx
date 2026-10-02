@@ -155,7 +155,7 @@ export default function MistakeLogDiary({ isOpen, onClose, tasksByDay = {}, curr
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-5xl bg-white border border-slate-200 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 max-h-[92vh] flex flex-col">
+      <div className="relative w-full max-w-6xl bg-white border border-slate-200 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 max-h-[92vh] flex flex-col">
         
         {/* Toast */}
         {notification && (

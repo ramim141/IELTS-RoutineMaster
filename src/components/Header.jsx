@@ -52,29 +52,21 @@ export default function Header({
           {/* Premium Right Badges & Action Buttons */}
           <div className="flex items-center gap-2 sm:gap-2.5">
             
-            {/* Cambridge Master Tracker Button */}
-            <button
-              onClick={onOpenCambridgeTracker}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 border border-teal-200/80 text-xs font-bold font-bengali transition-all shadow-xs active:scale-95"
-              title="Cambridge 10-19 Master Progress Matrix"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-teal-700" />
-              <span>কেমব্রিজ ট্র্যাকার (১০-১৯)</span>
-            </button>
+            {/* Target Band Pill */}
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100/90 border border-slate-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.03)] text-xs font-medium text-slate-700">
+              <Target className="w-3.5 h-3.5 text-indigo-600" />
+              <span>Target: <strong className="text-slate-900 font-semibold font-mono">Band {targetSettings.targetBand}</strong></span>
+            </div>
 
-            {/* Mistake Log Diary Button */}
-            <button
-              onClick={onOpenMistakeDiary}
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200/80 text-xs font-bold font-bengali transition-all shadow-xs active:scale-95"
-              title="ভুল বিশ্লেষণের বিশেষ ডায়েরি"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-rose-600" />
-              <span>ভুল ডায়েরি (Mistake Log)</span>
-            </button>
+            {/* Date Pill */}
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100/90 border border-slate-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.03)] text-xs font-medium text-slate-700">
+              <Calendar className="w-3.5 h-3.5 text-indigo-500" />
+              <span className="font-medium text-slate-700">{today}</span>
+            </div>
 
             {/* Streak Counter Pill */}
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-50 to-orange-50/70 border border-amber-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.03)] text-xs font-semibold text-amber-900">
-              <div className="p-1 rounded-full bg-amber-100 text-amber-600">
+              <div className="p-0.5 rounded-full bg-amber-100 text-amber-600">
                 <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
               </div>
               <span className="font-bold text-amber-900 font-mono">{streak}</span>
@@ -84,7 +76,7 @@ export default function Header({
             {/* Premium Settings / Target Edit Button */}
             <button
               onClick={onOpenSettings}
-              className="relative group flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white text-xs font-semibold shadow-md shadow-slate-900/10 hover:shadow-indigo-600/25 transition-all duration-200 active:scale-95"
+              className="relative group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white text-xs font-semibold shadow-md shadow-slate-900/10 hover:shadow-indigo-600/25 transition-all duration-200 active:scale-95"
             >
               <Settings className="w-3.5 h-3.5 text-slate-300 group-hover:text-white transition-colors group-hover:rotate-45 duration-300" />
               <span className="font-bengali hidden sm:inline">টার্গেট সেটিংস</span>

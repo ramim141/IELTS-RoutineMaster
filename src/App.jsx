@@ -9,6 +9,7 @@ import PracticeTrackSlot from './components/PracticeTrackSlot';
 import NightSlotReview from './components/NightSlotReview';
 import CambridgeMasterTracker from './components/CambridgeMasterTracker';
 import MistakeLogDiary from './components/MistakeLogDiary';
+import IeltsVocabVault from './components/IeltsVocabVault';
 import { 
   Sun, 
   CloudSun, 
@@ -20,7 +21,8 @@ import {
   ArrowRight,
   CheckCircle2,
   BookOpen,
-  BookMarked
+  BookMarked,
+  Zap
 } from 'lucide-react';
 
 const DEFAULT_TARGET_SETTINGS = {
@@ -58,9 +60,10 @@ export default function App() {
     }
   });
 
-  // Modal states for Cambridge Master Tracker and Mistake Log Diary
+  // Modal states for Cambridge Master Tracker, Mistake Log Diary, and Vocab Vault
   const [isCambridgeTrackerOpen, setIsCambridgeTrackerOpen] = useState(false);
   const [isMistakeDiaryOpen, setIsMistakeDiaryOpen] = useState(false);
+  const [isVocabVaultOpen, setIsVocabVaultOpen] = useState(false);
 
   // 2. Active Day tracker
   const [currentDay, setCurrentDay] = useState(() => {
@@ -248,10 +251,18 @@ export default function App() {
               </h2>
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+              <button
+                onClick={() => setIsVocabVaultOpen(true)}
+                className="text-xs text-indigo-700 hover:text-indigo-900 flex items-center gap-1.5 font-bengali font-bold transition-colors px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 border border-indigo-200/80 shadow-2xs active:scale-95"
+              >
+                <Zap className="w-3.5 h-3.5 text-indigo-600" />
+                <span>ভোকাবুলারি ব্যাংক</span>
+              </button>
+
               <button
                 onClick={() => setIsCambridgeTrackerOpen(true)}
-                className="text-xs text-teal-700 hover:text-teal-900 flex items-center gap-1.5 font-bengali font-bold transition-colors px-2.5 py-1 rounded-lg bg-teal-50 hover:bg-teal-100 border border-teal-200/80"
+                className="text-xs text-teal-700 hover:text-teal-900 flex items-center gap-1.5 font-bengali font-bold transition-colors px-2.5 py-1 rounded-lg bg-teal-50 hover:bg-teal-100 border border-teal-200/80 shadow-2xs active:scale-95"
               >
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>Cambridge Tracker</span>
@@ -259,7 +270,7 @@ export default function App() {
 
               <button
                 onClick={() => setIsMistakeDiaryOpen(true)}
-                className="text-xs text-rose-700 hover:text-rose-900 flex items-center gap-1.5 font-bengali font-bold transition-colors px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-200/80"
+                className="text-xs text-rose-700 hover:text-rose-900 flex items-center gap-1.5 font-bengali font-bold transition-colors px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-200/80 shadow-2xs active:scale-95"
               >
                 <BookMarked className="w-3.5 h-3.5" />
                 <span>ভুল ডায়েরি</span>
@@ -267,7 +278,7 @@ export default function App() {
 
               <button
                 onClick={() => setIsSetupModalOpen(true)}
-                className="text-xs text-indigo-600 hover:text-indigo-800 flex items-center gap-1.5 font-bengali font-semibold transition-colors px-2.5 py-1 rounded-lg hover:bg-indigo-50"
+                className="text-xs text-slate-700 hover:text-slate-900 flex items-center gap-1.5 font-bengali font-semibold transition-colors px-2.5 py-1 rounded-lg hover:bg-slate-100 border border-slate-200 shadow-2xs"
               >
                 <Sliders className="w-3.5 h-3.5" />
                 টার্গেট পরিবর্তন
@@ -653,6 +664,12 @@ export default function App() {
         onClose={() => setIsMistakeDiaryOpen(false)}
         tasksByDay={tasksByDay}
         currentDay={currentDay}
+      />
+
+      {/* IELTS Smart Vocab Bank & Flashcard Vault Modal */}
+      <IeltsVocabVault
+        isOpen={isVocabVaultOpen}
+        onClose={() => setIsVocabVaultOpen(false)}
       />
 
       {/* Target Setup Modal */}
