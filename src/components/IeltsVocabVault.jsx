@@ -14,6 +14,7 @@ import {
   X,
   Shuffle,
   ChevronDown,
+  ChevronUp,
   Bookmark,
   Eye,
   EyeOff,
@@ -53,23 +54,78 @@ export default function IeltsVocabVault({
     }
   });
 
+  // Initial reference sample word matching user's requested IELTS structure
+  const SAMPLE_EXPONENTIAL_GROWTH = {
+    id: 'sample_exp_growth',
+    word: 'Exponential growth',
+    pos: 'Noun phrase',
+    alternative: 'Rapid increase / Very fast growth',
+    meaning: 'Becoming more and more rapid in growth or development',
+    bnMeaning: 'দ্রুত বা অত্যন্ত দ্রুত বৃদ্ধি (গুণোত্তর হারে বৃদ্ধি)',
+    example: 'Over the past decade, the use of renewable energy has experienced exponential growth.',
+    tip: '"Increased very fast" বা "Huge growth"-এর জায়গায় এটি ব্যবহার করলে ব্যান্ড স্কোর এক লাফে Band 8 লেভেলে যায়।',
+    createdAt: '03/10/2026'
+  };
+
   // Personal Word Vault in LocalStorage
   const [personalWords, setPersonalWords] = useState(() => {
     try {
       const saved = localStorage.getItem('ielts_personal_word_vault');
-      return saved ? JSON.parse(saved) : [];
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.length > 0) {
+          const hasExp = parsed.some(w => w.word?.toLowerCase() === 'exponential growth');
+          if (!hasExp) {
+            return [SAMPLE_EXPONENTIAL_GROWTH, ...parsed];
+          }
+          return parsed;
+        }
+      }
+      return [SAMPLE_EXPONENTIAL_GROWTH];
     } catch (e) {
-      return [];
+      return [SAMPLE_EXPONENTIAL_GROWTH];
     }
   });
 
   // Custom word form
   const [isAddCustomOpen, setIsAddCustomOpen] = useState(false);
   const [newWord, setNewWord] = useState('');
-  const [newPos, setNewPos] = useState('Noun');
+  const [newPos, setNewPos] = useState('Noun phrase');
+  const [newAlternative, setNewAlternative] = useState('');
   const [newMeaning, setNewMeaning] = useState('');
   const [newBnMeaning, setNewBnMeaning] = useState('');
   const [newExample, setNewExample] = useState('');
+  const [newTip, setNewTip] = useState('');
+
+  // Personal words collapsible state & search
+  const [expandedWordIds, setExpandedWordIds] = useState({ sample_exp_growth: true });
+  const [personalSearchQuery, setPersonalSearchQuery] = useState('');
+
+  const toggleWordExpand = (id) => {
+    setExpandedWordIds(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  const toggleAllPersonalWords = (expand) => {
+    const nextState = {};
+    personalWords.forEach(w => {
+      nextState[w.id] = expand;
+    });
+    setExpandedWordIds(nextState);
+  };
+
+  const handleCloseModal = () => {
+    setIsAddCustomOpen(false);
+    setNewWord('');
+    setNewPos('Noun phrase');
+    setNewAlternative('');
+    setNewMeaning('');
+    setNewBnMeaning('');
+    setNewExample('');
+    setNewTip('');
+  };
 
   const [notification, setNotification] = useState(null);
 
@@ -94,6 +150,19 @@ export default function IeltsVocabVault({
                          item.meaning.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          item.bnMeaning.includes(searchQuery);
     return matchesTopic && matchesQuery;
+  });
+
+  const filteredPersonalWords = personalWords.filter(item => {
+    if (!personalSearchQuery.trim()) return true;
+    const q = personalSearchQuery.toLowerCase();
+    return (
+      item.word?.toLowerCase().includes(q) ||
+      item.meaning?.toLowerCase().includes(q) ||
+      item.bnMeaning?.toLowerCase().includes(q) ||
+      item.alternative?.toLowerCase().includes(q) ||
+      item.tip?.toLowerCase().includes(q) ||
+      item.pos?.toLowerCase().includes(q)
+    );
   });
 
   const toggleMastery = (wordId) => {
@@ -133,20 +202,19 @@ export default function IeltsVocabVault({
       id: 'p_word_' + Date.now(),
       word: newWord.trim(),
       pos: newPos,
+      alternative: newAlternative.trim(),
       meaning: newMeaning.trim(),
       bnMeaning: newBnMeaning.trim(),
       example: newExample.trim(),
+      tip: newTip.trim(),
       createdAt: new Date().toLocaleDateString('en-GB')
     };
 
     savePersonalWords([item, ...personalWords]);
-    setNewWord('');
-    setNewMeaning('');
-    setNewBnMeaning('');
-    setNewExample('');
-    setIsAddCustomOpen(false);
+    setExpandedWordIds(prev => ({ ...prev, [item.id]: true }));
+    handleCloseModal();
 
-    confetti({ particleCount: 20, spread: 30, origin: { y: 0.6 } });
+    confetti({ particleCount: 25, spread: 35, origin: { y: 0.6 } });
     showToast('📝 নতুন শব্দ সেভ হয়েছে');
   };
 
@@ -197,9 +265,16 @@ export default function IeltsVocabVault({
 
   // Keyboard navigation support
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen && !isPageView) return;
 
     const handleKeyDown = (e) => {
+      if (isAddCustomOpen) {
+        if (e.key === 'Escape') {
+          handleCloseModal();
+        }
+        return;
+      }
+
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
 
       if (e.key === 'ArrowRight') {
@@ -214,7 +289,7 @@ export default function IeltsVocabVault({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, isPageView, filteredWords.length]);
+  }, [isOpen, isPageView, filteredWords.length, isAddCustomOpen]);
 
   if (!isOpen && !isPageView) return null;
 
@@ -729,151 +804,483 @@ export default function IeltsVocabVault({
 
         {/* Tab 4: Minimal Personal Word Vault */}
         {activeTab === 'personal' && (
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 bg-white dark:bg-slate-900">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-white dark:bg-slate-900 custom-scrollbar">
             
-            <div className="flex items-center justify-between">
+            {/* Top Toolbar */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
               <div>
-                <h4 className="text-sm font-bold font-bengali text-slate-900 dark:text-slate-100">
-                  আপনার ব্যক্তিগত শব্দভাণ্ডার ({personalWords.length}টি শব্দ)
+                <h4 className="text-sm sm:text-base font-bold font-bengali text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  <span>আপনার ব্যক্তিগত শব্দভাণ্ডার</span>
+                  <span className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60">
+                    {personalWords.length}টি শব্দ
+                  </span>
                 </h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
-                  টেস্টে পাওয়া নতুন শব্দগুলো এখানে টুকে রাখুন
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali mt-0.5">
+                  টেস্টে বা রিডিংয়ে পাওয়া নতুন শব্দগুলো এখানে কার্ড আকারে সংরক্ষিত
                 </p>
               </div>
 
-              <button
-                onClick={() => setIsAddCustomOpen(true)}
-                className="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-medium font-bengali flex items-center gap-1.5 shadow-xs transition-all"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>নতুন শব্দ যোগ করুন</span>
-              </button>
+              <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                {/* Search in Personal Words (if > 2 words) */}
+                {personalWords.length > 2 && (
+                  <div className="relative w-full sm:w-44">
+                    <input
+                      type="text"
+                      placeholder="শব্দ খুঁজুন..."
+                      value={personalSearchQuery}
+                      onChange={(e) => setPersonalSearchQuery(e.target.value)}
+                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-1 focus:ring-indigo-500 font-bengali"
+                    />
+                    <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                )}
+
+                {/* Expand / Collapse All (if > 1 word) */}
+                {personalWords.length > 1 && (
+                  <div className="flex items-center gap-1 border border-slate-200 dark:border-slate-700 rounded-xl p-0.5 bg-slate-50 dark:bg-slate-800/60">
+                    <button
+                      type="button"
+                      onClick={() => toggleAllPersonalWords(true)}
+                      className="px-2 py-1 text-[11px] font-bengali font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg transition-colors cursor-pointer"
+                      title="সব কার্ড খুলুন"
+                    >
+                      সব খুলুন
+                    </button>
+                    <span className="text-slate-300 dark:text-slate-700">|</span>
+                    <button
+                      type="button"
+                      onClick={() => toggleAllPersonalWords(false)}
+                      className="px-2 py-1 text-[11px] font-bengali font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg transition-colors cursor-pointer"
+                      title="সব কার্ড বন্ধ করুন"
+                    >
+                      সব বন্ধ
+                    </button>
+                  </div>
+                )}
+
+                {/* Add New Word Button -> Opens Popup Modal */}
+                <button
+                  type="button"
+                  onClick={() => setIsAddCustomOpen(true)}
+                  className="px-3.5 py-1.5 rounded-xl bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-500 text-white text-xs font-bold font-bengali flex items-center gap-1.5 shadow-xs transition-all active:scale-95 cursor-pointer whitespace-nowrap ml-auto sm:ml-0"
+                >
+                  <Plus className="w-4 h-4 stroke-[2.5]" />
+                  <span>নতুন শব্দ যোগ করুন</span>
+                </button>
+              </div>
             </div>
 
-            {isAddCustomOpen && (
-              <form onSubmit={handleAddPersonalWord} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-2.5 animate-fadeIn">
-                <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-slate-700">
-                  <span className="text-xs font-bold font-bengali text-slate-800 dark:text-slate-200">নতুন শব্দ এন্ট্রি</span>
-                  <button type="button" onClick={() => setIsAddCustomOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                    <X className="w-4 h-4" />
-                  </button>
+            {/* Empty State */}
+            {personalWords.length === 0 ? (
+              <div className="text-center py-12 px-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50/50 dark:bg-slate-900/40 space-y-3 animate-fadeIn">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto shadow-xs">
+                  <Bookmark className="w-6 h-6" />
+                </div>
+                <div className="space-y-1">
+                  <h5 className="text-sm font-bold text-slate-800 dark:text-slate-200 font-bengali">
+                    ব্যক্তিগত শব্দভাণ্ডারে এখনো কোনো শব্দ যোগ করা হয়নি
+                  </h5>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali max-w-sm mx-auto">
+                    ক্যামব্রিজ টেস্ট বা রিডিং পড়ার সময় পাওয়া কঠিন শব্দগুলো এখানে সংরক্ষণ করে নিয়মিত প্র্যাকটিস করুন।
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsAddCustomOpen(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold font-bengali shadow-xs transition-all active:scale-95 cursor-pointer"
+                >
+                  <Plus className="w-4 h-4 stroke-[2.5]" />
+                  <span>প্রথম শব্দটি যোগ করুন</span>
+                </button>
+              </div>
+            ) : filteredPersonalWords.length === 0 ? (
+              <div className="text-center py-10 text-xs text-slate-400 font-bengali">
+                কোনো শব্দ খুঁজে পাওয়া যায়নি।
+              </div>
+            ) : (
+              /* Collapsible Word Cards Grid */
+              <div className="space-y-3">
+              {filteredPersonalWords.map((word, idx) => {
+                const isExpanded = Boolean(expandedWordIds[word.id]);
+
+                // POS Color Badges
+                const posColors = {
+                  'Noun phrase': 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/60',
+                  Noun: 'bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/60',
+                  Verb: 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/60',
+                  Adjective: 'bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800/60',
+                  Adverb: 'bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800/60',
+                  Collocation: 'bg-cyan-50 dark:bg-cyan-950/50 text-cyan-800 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800/60',
+                  Phrase: 'bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800/60',
+                  Idiom: 'bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800/60'
+                };
+                const posBadgeClass = posColors[word.pos] || 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700';
+
+                return (
+                  <div 
+                    key={word.id} 
+                    className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                      isExpanded
+                        ? 'bg-white dark:bg-slate-900 border-indigo-200 dark:border-indigo-800/80 shadow-md ring-1 ring-indigo-500/10'
+                        : 'bg-white dark:bg-slate-850/60 border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-2xs hover:shadow-xs'
+                    }`}
+                  >
+                    {/* Collapsible Card Header (Click to expand/collapse) */}
+                    <div 
+                      onClick={() => toggleWordExpand(word.id)}
+                      className="p-4 flex items-center justify-between gap-3 cursor-pointer select-none hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors"
+                    >
+                      <div className="flex items-center gap-3 min-w-0 flex-1 flex-wrap sm:flex-nowrap">
+                        {/* Number & Word Header matching user screenshot */}
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span className="text-base sm:text-lg font-black font-mono text-slate-900 dark:text-white">
+                            {idx + 1}. {word.word}
+                          </span>
+                          <span className={`text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md border ${posBadgeClass}`}>
+                            {word.pos}
+                          </span>
+                        </div>
+
+                        {/* Collapsed Preview */}
+                        {!isExpanded && (
+                          <div className="flex items-center gap-2 truncate text-xs text-slate-500 dark:text-slate-400 font-bengali">
+                            {word.alternative && (
+                              <span className="bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded border border-amber-200/60 dark:border-amber-800/40 text-[11px] font-mono truncate hidden sm:inline">
+                                বিকল্প: {word.alternative}
+                              </span>
+                            )}
+                            {word.bnMeaning && (
+                              <span className="truncate hidden md:inline">
+                                • {word.bnMeaning}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Action buttons on header */}
+                      <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
+                        <button 
+                          type="button"
+                          onClick={() => speakWord(word.word)} 
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                          title="উচ্চারণ শুনুন"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => toggleWordExpand(word.id)}
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                          title={isExpanded ? 'সংকোচন করুন' : 'বিস্তারিত দেখুন'}
+                        >
+                          {isExpanded ? (
+                            <ChevronUp className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Collapsible Card Body Drawer (Exact structure matching user screenshot) */}
+                    {isExpanded && (
+                      <div className="px-5 pb-5 pt-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/60 space-y-3 animate-fadeIn text-xs sm:text-sm font-bengali leading-relaxed">
+                        
+                        {/* 1. Part of Speech */}
+                        <div className="flex items-start gap-2.5">
+                          <span className="w-2 h-2 rounded-full border border-slate-400 dark:border-slate-500 shrink-0 mt-1.5" />
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-bold text-slate-900 dark:text-slate-100">Part of Speech:</span>
+                            <span className="font-mono text-slate-700 dark:text-slate-300 font-semibold">
+                              {word.pos}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* 2. সাধারণ শব্দের বিকল্প */}
+                        {word.alternative && (
+                          <div className="flex items-start gap-2.5">
+                            <span className="w-2 h-2 rounded-full border border-amber-500 shrink-0 mt-1.5" />
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="font-bold text-slate-900 dark:text-slate-100">সাধারণ শব্দের বিকল্প:</span>
+                              <span className="font-mono text-amber-800 dark:text-amber-300 font-medium bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-200/80 dark:border-amber-800/60">
+                                {word.alternative}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 3. English Meaning */}
+                        <div className="flex items-start gap-2.5">
+                          <span className="w-2 h-2 rounded-full border border-indigo-500 shrink-0 mt-1.5" />
+                          <div className="flex items-start gap-2 flex-wrap">
+                            <span className="font-bold text-slate-900 dark:text-slate-100 shrink-0">English Meaning:</span>
+                            <span className="text-slate-700 dark:text-slate-300 font-medium">
+                              {word.meaning}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* 4. বাংলা অর্থ */}
+                        {word.bnMeaning && (
+                          <div className="flex items-start gap-2.5">
+                            <span className="w-2 h-2 rounded-full border border-emerald-500 shrink-0 mt-1.5" />
+                            <div className="flex items-start gap-2 flex-wrap">
+                              <span className="font-bold text-slate-900 dark:text-slate-100 shrink-0">বাংলা অর্থ:</span>
+                              <span className="text-slate-800 dark:text-slate-200 font-bold">
+                                {word.bnMeaning}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 5. Writing/Speaking Use */}
+                        {word.example && (
+                          <div className="space-y-2 pt-1">
+                            <div className="flex items-center gap-2.5">
+                              <span className="w-2 h-2 rounded-full border border-purple-500 shrink-0" />
+                              <span className="font-bold text-slate-900 dark:text-slate-100">Writing/Speaking Use:</span>
+                            </div>
+                            <div className="ml-5 pl-4 py-3 bg-white dark:bg-slate-850 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-indigo-500 font-serif italic text-slate-800 dark:text-slate-200 text-xs sm:text-[13px] leading-relaxed shadow-2xs">
+                              "{word.example}"
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 6. টিপ */}
+                        {word.tip && (
+                          <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/60 text-slate-900 dark:text-amber-100">
+                            <span className="w-2 h-2 rounded-full border border-amber-600 dark:border-amber-400 shrink-0 mt-1.5" />
+                            <div className="text-xs sm:text-[13px] leading-relaxed">
+                              <strong className="font-bold text-amber-900 dark:text-amber-300">টিপ: </strong>
+                              <span>{word.tip}</span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Card Footer: Meta & Action controls */}
+                        <div className="pt-3 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
+                          <span>
+                            {word.createdAt ? `যুক্ত হয়েছে: ${word.createdAt}` : ''}
+                          </span>
+
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => copyToClipboard(word.word)}
+                              className="px-2.5 py-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-mono flex items-center gap-1 transition-colors cursor-pointer"
+                              title="শব্দ কপি করুন"
+                            >
+                              <Copy className="w-3.5 h-3.5" />
+                              <span>Copy</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => speakWord(word.word)}
+                              className="px-2.5 py-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bengali flex items-center gap-1 transition-colors cursor-pointer"
+                              title="উচ্চারণ শুনুন"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                              <span>শুনুন</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleDeletePersonalWord(word.id)}
+                              className="px-2.5 py-1 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/50 text-rose-600 dark:text-rose-400 text-xs font-bengali flex items-center gap-1 transition-colors cursor-pointer"
+                              title="মুছে ফেলুন"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                              <span>মুছুন</span>
+                            </button>
+                          </div>
+                        </div>
+
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            )}
+
+          </div>
+        )}
+
+        {/* ADD PERSONAL WORD POPUP MODAL */}
+        {isAddCustomOpen && (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 dark:bg-black/80 backdrop-blur-xs animate-fadeIn"
+            onClick={handleCloseModal}
+          >
+            <div 
+              className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden animate-scaleUp max-h-[90vh] flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/70 dark:bg-slate-800/40 shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                    <Plus className="w-5 h-5 stroke-[2.5]" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white font-bengali">
+                      নতুন শব্দ যোগ করুন
+                    </h3>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bengali">
+                      IELTS Band 8+ ফরম্যাটে নতুন শব্দ ও প্রয়োগ টুকে রাখুন
+                    </p>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <div className="sm:col-span-2">
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  title="বন্ধ করুন"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Modal Form */}
+              <form onSubmit={handleAddPersonalWord} className="p-5 sm:p-6 space-y-3.5 overflow-y-auto custom-scrollbar flex-1">
+                {/* 1. Word & Part of Speech */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="sm:col-span-2 space-y-1">
+                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali flex items-center gap-1">
+                      <span>শব্দ বা ফ্রেজ (Word / Phrase)</span>
+                      <span className="text-rose-500">*</span>
+                    </label>
                     <input
                       type="text"
                       required
-                      placeholder="Word (e.g. Ubiquitous)"
+                      autoFocus
+                      placeholder="উদাঃ Exponential growth"
                       value={newWord}
                       onChange={(e) => setNewWord(e.target.value)}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                      className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs font-mono font-bold text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                     />
                   </div>
-                  <div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali">
+                      Part of Speech
+                    </label>
                     <select
                       value={newPos}
                       onChange={(e) => setNewPos(e.target.value)}
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                      className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer font-mono"
                     >
+                      <option value="Noun phrase">Noun phrase</option>
                       <option value="Noun">Noun</option>
                       <option value="Verb">Verb</option>
                       <option value="Adjective">Adjective</option>
                       <option value="Adverb">Adverb</option>
+                      <option value="Collocation">Collocation</option>
                       <option value="Phrase">Phrase</option>
+                      <option value="Idiom">Idiom</option>
                     </select>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {/* 2. সাধারণ শব্দের বিকল্প */}
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali flex items-center justify-between">
+                    <span>সাধারণ শব্দের বিকল্প (Alternative / Replacement)</span>
+                    <span className="text-[11px] font-normal text-amber-600 dark:text-amber-400">যার বদলে এটি ব্যবহার করবেন</span>
+                  </label>
                   <input
                     type="text"
-                    required
-                    placeholder="English Meaning"
-                    value={newMeaning}
-                    onChange={(e) => setNewMeaning(e.target.value)}
-                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
-                  />
-                  <input
-                    type="text"
-                    placeholder="বাংলা অর্থ (ঐচ্ছিক)"
-                    value={newBnMeaning}
-                    onChange={(e) => setNewBnMeaning(e.target.value)}
-                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
+                    placeholder="উদাঃ Rapid increase / Very fast growth"
+                    value={newAlternative}
+                    onChange={(e) => setNewAlternative(e.target.value)}
+                    className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                   />
                 </div>
 
-                <input
-                  type="text"
-                  placeholder="Example Sentence (ঐচ্ছিক)"
-                  value={newExample}
-                  onChange={(e) => setNewExample(e.target.value)}
-                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-400"
-                />
+                {/* 3. English Meaning & বাংলা অর্থ */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali flex items-center gap-1">
+                      <span>English Meaning</span>
+                      <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="উদাঃ Becoming more and more rapid in growth"
+                      value={newMeaning}
+                      onChange={(e) => setNewMeaning(e.target.value)}
+                      className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                    />
+                  </div>
 
-                <div className="flex justify-end gap-2 pt-1">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali">
+                      বাংলা অর্থ
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="উদাঃ দ্রুত বা অত্যন্ত দ্রুত বৃদ্ধি (গুণোত্তর হারে বৃদ্ধি)"
+                      value={newBnMeaning}
+                      onChange={(e) => setNewBnMeaning(e.target.value)}
+                      className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs font-bengali text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                    />
+                  </div>
+                </div>
+
+                {/* 4. Writing/Speaking Use */}
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali">
+                    Writing/Speaking Use: (বাক্য প্রয়োগ)
+                  </label>
+                  <textarea
+                    rows="2"
+                    placeholder='উদাঃ "Over the past decade, the use of renewable energy has experienced exponential growth."'
+                    value={newExample}
+                    onChange={(e) => setNewExample(e.target.value)}
+                    className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all resize-none font-serif"
+                  />
+                </div>
+
+                {/* 5. টিপ */}
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 font-bengali flex items-center gap-1.5">
+                    <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                    <span>টিপ (IELTS Band 8+ পরামর্শ)</span>
+                  </label>
+                  <textarea
+                    rows="2"
+                    placeholder='উদাঃ "Increased very fast" বা "Huge growth"-এর জায়গায় এটি ব্যবহার করলে ব্যান্ড স্কোর এক লাফে Band 8 লেভেলে যায়।'
+                    value={newTip}
+                    onChange={(e) => setNewTip(e.target.value)}
+                    className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs font-bengali text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all resize-none"
+                  />
+                </div>
+
+                {/* Modal Footer Actions */}
+                <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100 dark:border-slate-800">
                   <button
                     type="button"
-                    onClick={() => setIsAddCustomOpen(false)}
-                    className="px-2.5 py-1 rounded text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                    onClick={handleCloseModal}
+                    className="px-4 py-2 rounded-xl text-xs font-semibold font-bengali text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                   >
                     বাতিল
                   </button>
                   <button
                     type="submit"
-                    className="px-3.5 py-1 rounded bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-semibold font-bengali"
+                    className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold font-bengali shadow-sm transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
                   >
-                    সেভ করুন
+                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    <span>সেভ করুন</span>
                   </button>
                 </div>
               </form>
-            )}
-
-            {personalWords.length === 0 ? (
-              <div className="text-center py-10 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 space-y-1.5">
-                <Bookmark className="w-6 h-6 text-slate-300 dark:text-slate-600 mx-auto" />
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
-                  ব্যক্তিগত শব্দভাণ্ডারে এখনো কোনো শব্দ যোগ করা হয়নি।
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {personalWords.map((word) => (
-                  <div key={word.id} className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/60 space-y-1.5">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <h5 className="text-sm font-bold font-mono text-slate-900 dark:text-slate-100">{word.word}</h5>
-                          <span className="text-[9px] font-mono bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-1 py-0.2 rounded">{word.pos}</span>
-                        </div>
-                        {word.bnMeaning && (
-                          <span className="text-xs text-slate-700 dark:text-slate-300 font-bengali block">
-                            {word.bnMeaning}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-1">
-                        <button onClick={() => speakWord(word.word)} className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
-                          <Volume2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button onClick={() => handleDeletePersonalWord(word.id)} className="p-1 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400">
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-slate-600 dark:text-slate-300">{word.meaning}</p>
-                    {word.example && (
-                      <p className="text-[11px] italic text-slate-500 dark:text-slate-400 border-l border-slate-300 dark:border-slate-600 pl-2">
-                        "{word.example}"
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-
+            </div>
           </div>
         )}
 
