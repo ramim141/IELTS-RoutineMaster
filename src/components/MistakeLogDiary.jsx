@@ -12,11 +12,19 @@ import {
   Tag, 
   Calendar,
   BookOpenCheck,
-  FileText
+  FileText,
+  ArrowLeft
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export default function MistakeLogDiary({ isOpen, onClose, tasksByDay = {}, currentDay = 1 }) {
+export default function MistakeLogDiary({ 
+  isOpen = true, 
+  onClose, 
+  isPageView = false,
+  onBack,
+  tasksByDay = {}, 
+  currentDay = 1 
+}) {
   // Standalone custom mistake entries
   const [customMistakes, setCustomMistakes] = useState(() => {
     try {
@@ -151,58 +159,71 @@ export default function MistakeLogDiary({ isOpen, onClose, tasksByDay = {}, curr
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen && !isPageView) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-6xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] shadow-2xl p-6 sm:p-8 text-slate-900 dark:text-slate-100 max-h-[92vh] flex flex-col">
-        
-        {/* Toast */}
-        {notification && (
-          <div className="absolute top-4 right-16 z-30 px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-xs font-bold font-bengali shadow-xl flex items-center gap-2 animate-fadeIn border border-slate-700">
-            <Sparkles className="w-3.5 h-3.5 text-rose-400" />
-            <span>{notification}</span>
-          </div>
-        )}
+  const contentMarkup = (
+    <div className={`relative w-full ${isPageView ? 'bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-3xl shadow-sm p-5 sm:p-7' : 'max-w-6xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] shadow-2xl p-6 sm:p-8 max-h-[92vh]'} text-slate-900 dark:text-slate-100 flex flex-col`}>
+      
+      {/* Toast */}
+      {notification && (
+        <div className="absolute top-4 right-16 z-30 px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-xs font-bold font-bengali shadow-xl flex items-center gap-2 animate-fadeIn border border-slate-700">
+          <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+          <span>{notification}</span>
+        </div>
+      )}
 
-        {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/60 shadow-xs">
-              <BookMarked className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-xl font-extrabold font-bengali text-slate-900 dark:text-slate-100">
-                  IELTS Mistake Log Diary (ভুল বিশ্লেষণ ডায়েরি)
-                </h3>
-                <span className="text-[10px] font-mono font-bold bg-rose-100 dark:bg-rose-900/50 text-rose-900 dark:text-rose-300 px-2.5 py-0.5 rounded-full border border-rose-200 dark:border-rose-800">
-                  {allMistakes.length} Logs Saved
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali mt-0.5">
-                মক টেস্ট ও প্র্যাকটিসের সমস্ত ভুল, কারণ এবং সমাধান এক জায়গায় নিয়মিত রিভিশন দিন
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
+      {/* Header */}
+      <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 shrink-0 flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          {isPageView && onBack && (
             <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold font-bengali flex items-center gap-1.5 shadow-sm shadow-rose-600/20 active:scale-95"
+              type="button"
+              onClick={onBack}
+              className="p-2.5 rounded-2xl bg-slate-100/90 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-all duration-200 active:scale-90 hover:scale-105 cursor-pointer shadow-xs border border-slate-200/80 dark:border-slate-700/80 shrink-0 mr-1"
+              title="রুটিনে ফিরে যান"
+              aria-label="রুটিনে ফিরে যান"
             >
-              <Plus className="w-4 h-4" />
-              <span>নতুন ভুল নোট করুন</span>
+              <ArrowLeft className="w-5 h-5" />
             </button>
+          )}
 
+          <div className="p-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/60 shadow-xs">
+            <BookMarked className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-xl font-extrabold font-bengali text-slate-900 dark:text-slate-100">
+                IELTS Mistake Log Diary (ভুল বিশ্লেষণ ডায়েরি)
+              </h3>
+              <span className="text-[10px] font-mono font-bold bg-rose-100 dark:bg-rose-900/50 text-rose-900 dark:text-rose-300 px-2.5 py-0.5 rounded-full border border-rose-200 dark:border-rose-800">
+                {allMistakes.length} Logs Saved
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali mt-0.5">
+              মক টেস্ট ও প্র্যাকটিসের সমস্ত ভুল, কারণ এবং সমাধান এক জায়গায় নিয়মিত রিভিশন দিন
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold font-bengali flex items-center gap-1.5 shadow-sm shadow-rose-600/20 active:scale-95 cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>নতুন ভুল নোট করুন</span>
+          </button>
+
+          {!isPageView && onClose && (
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
-          </div>
+          )}
         </div>
+      </div>
 
         {/* Filter Bar & Search */}
         <div className="py-3 space-y-2.5 shrink-0 border-b border-slate-100 dark:border-slate-800">
@@ -325,15 +346,15 @@ export default function MistakeLogDiary({ isOpen, onClose, tasksByDay = {}, curr
             মোট ভুল বিশ্লেষণ এন্ট্রি: <strong className="text-rose-600 dark:text-rose-400 font-mono">{filteredMistakes.length}টি</strong>
           </span>
 
-          <button
-            onClick={onClose}
-            className="px-6 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-bold font-bengali transition-all shadow-xs"
-          >
-            বন্ধ করুন
-          </button>
+          {!isPageView && (
+            <button
+              onClick={onClose}
+              className="px-6 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-bold font-bengali transition-all shadow-xs"
+            >
+              বন্ধ করুন
+            </button>
+          )}
         </div>
-
-      </div>
 
       {/* ======================================================== */}
       {/* ADD CUSTOM MISTAKE POPUP MODAL */}
@@ -448,6 +469,16 @@ export default function MistakeLogDiary({ isOpen, onClose, tasksByDay = {}, curr
         </div>
       )}
 
+    </div>
+  );
+
+  if (isPageView) {
+    return contentMarkup;
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md animate-fadeIn">
+      {contentMarkup}
     </div>
   );
 }

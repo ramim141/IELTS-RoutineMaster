@@ -29,7 +29,12 @@ import {
   HIGH_BAND_COLLOCATIONS 
 } from '../data/ieltsVocabData';
 
-export default function IeltsVocabVault({ isOpen, onClose }) {
+export default function IeltsVocabVault({ 
+  isOpen = true, 
+  onClose,
+  isPageView = false,
+  onBack 
+}) {
   const [activeTab, setActiveTab] = useState('flashcards');
   const [selectedTopic, setSelectedTopic] = useState('All Topics');
   const [searchQuery, setSearchQuery] = useState('');
@@ -209,58 +214,71 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, filteredWords.length]);
+  }, [isOpen, isPageView, filteredWords.length]);
 
-  if (!isOpen) return null;
+  if (!isOpen && !isPageView) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 bg-slate-900/60 dark:bg-black/80 backdrop-blur-xs animate-fadeIn">
-      <div className="relative w-full max-w-4xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xl text-slate-800 dark:text-slate-100 max-h-[90vh] flex flex-col overflow-hidden">
-        
-        {/* Minimal Floating Toast */}
-        {notification && (
-          <div className="absolute top-3.5 right-14 z-50 px-3 py-1.5 rounded-lg bg-slate-900/90 dark:bg-slate-800 text-white text-xs font-medium font-bengali shadow-md flex items-center gap-1.5 animate-fadeIn border border-slate-700">
-            <Sparkles className="w-3 h-3 text-amber-300" />
-            <span>{notification}</span>
+  const contentMarkup = (
+    <div className={`relative w-full ${isPageView ? 'bg-white dark:bg-[#0F172A] border border-slate-200/90 dark:border-slate-800 rounded-3xl shadow-sm' : 'max-w-4xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xl max-h-[90vh]'} text-slate-800 dark:text-slate-100 flex flex-col overflow-hidden`}>
+      
+      {/* Minimal Floating Toast */}
+      {notification && (
+        <div className="absolute top-3.5 right-14 z-50 px-3.5 py-1.5 rounded-lg bg-slate-900/90 dark:bg-slate-800 text-white text-xs font-medium font-bengali shadow-md flex items-center gap-1.5 animate-fadeIn border border-slate-700">
+          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+          <span>{notification}</span>
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="px-5 sm:px-6 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-white dark:bg-slate-900">
+        <div className="flex items-center gap-2.5">
+          {isPageView && onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              className="p-2.5 rounded-2xl bg-slate-100/90 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-all duration-200 active:scale-90 hover:scale-105 cursor-pointer shadow-xs border border-slate-200/80 dark:border-slate-700/80 shrink-0 mr-1"
+              title="রুটিনে ফিরে যান"
+              aria-label="রুটিনে ফিরে যান"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+          )}
+
+          <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+            <Zap className="w-4 h-4" />
           </div>
-        )}
-
-        {/* Minimal Header */}
-        <div className="px-5 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-white dark:bg-slate-900">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-              <Zap className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 font-bengali">
-                  IELTS Smart Vocab Bank
-                </h3>
-                <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-normal hidden sm:inline">
-                  • 650+ Band 8.0+ Words
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {/* Minimal Mastery Counter */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-[11px] font-mono text-slate-600 dark:text-slate-300">
-              <span className="flex items-center gap-1">
-                <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-                <span>{masteredIds.length}/{IELTS_CURATED_VOCAB.length}</span>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 font-bengali">
+                IELTS Smart Vocab Bank
+              </h3>
+              <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 font-normal hidden sm:inline">
+                • 650+ Band 8.0+ Words
               </span>
             </div>
+          </div>
+        </div>
 
+        <div className="flex items-center gap-2">
+          {/* Minimal Mastery Counter */}
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-[11px] font-mono text-slate-600 dark:text-slate-300">
+            <span className="flex items-center gap-1">
+              <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+              <span>{masteredIds.length}/{IELTS_CURATED_VOCAB.length}</span>
+            </span>
+          </div>
+
+          {!isPageView && onClose && (
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               title="Close"
             >
               <X className="w-4 h-4" />
             </button>
-          </div>
+          )}
         </div>
+      </div>
 
         {/* Minimal Tab Switcher Bar */}
         <div className="px-5 py-2 bg-slate-50/60 dark:bg-slate-950/40 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 shrink-0">
@@ -859,21 +877,30 @@ export default function IeltsVocabVault({ isOpen, onClose }) {
           </div>
         )}
 
-        {/* Minimal Footer */}
+        {/* Footer */}
         <div className="px-5 sm:px-6 py-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-slate-50/50 dark:bg-slate-950/40">
           <span className="text-[11px] text-slate-400 dark:text-slate-500 font-bengali">
             * কিবোর্ড শর্টকাট: ← আগের শব্দ | → পরের শব্দ | Space অর্থ টগল
           </span>
 
           <button
-            onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-medium font-bengali transition-all active:scale-95"
+            onClick={isPageView ? onBack : onClose}
+            className="px-4 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 hover:bg-slate-800 dark:hover:bg-white text-white dark:text-slate-900 text-xs font-medium font-bengali transition-all active:scale-95 cursor-pointer"
           >
-            বন্ধ করুন
+            {isPageView ? 'রুটিনে ফিরে যান' : 'বন্ধ করুন'}
           </button>
         </div>
 
       </div>
+  );
+
+  if (isPageView) {
+    return contentMarkup;
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 bg-slate-900/60 dark:bg-black/80 backdrop-blur-xs animate-fadeIn">
+      {contentMarkup}
     </div>
   );
 }

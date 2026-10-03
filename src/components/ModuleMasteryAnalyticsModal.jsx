@@ -25,12 +25,15 @@ import {
   Flame,
   Zap,
   Layers,
-  Brain
+  Brain,
+  ArrowLeft
 } from 'lucide-react';
 
 export default function ModuleMasteryAnalyticsModal({
-  isOpen,
+  isOpen = true,
   onClose,
+  isPageView = false,
+  onBack,
   tasksByDay = {},
   targetSettings = {},
   currentDay = 1,
@@ -106,13 +109,42 @@ export default function ModuleMasteryAnalyticsModal({
     // Compute Cambridge test metrics per module
     if (cambridgeData && typeof cambridgeData === 'object') {
       const scores = { Listening: [], Reading: [], Writing: [], Speaking: [] };
-      Object.values(cambridgeData).forEach(entry => {
-        if (entry && entry.module && entry.score) {
-          const mod = entry.module;
-          const scoreNum = parseFloat(entry.score);
-          if (scores[mod] && !isNaN(scoreNum)) {
-            scores[mod].push(scoreNum);
+      const sectionSums = {
+        Listening: { s1: [], s2: [], s3: [], s4: [] },
+        Reading: { s1: [], s2: [], s3: [] },
+        Writing: { s1: [], s2: [] },
+        Speaking: { s1: [], s2: [], s3: [] }
+      };
+
+      Object.entries(cambridgeData).forEach(([key, entry]) => {
+        if (!entry || !entry.done) return;
+        const parts = key.split('_');
+        const mod = entry.module || parts[2];
+        if (!scores[mod]) return;
+
+        // Band / raw score
+        if (entry.calculatedBand) {
+          const b = parseFloat(entry.calculatedBand);
+          if (!isNaN(b)) scores[mod].push(b);
+        } else if (entry.score) {
+          const match = String(entry.score).match(/(\d+(\.\d+)?)/);
+          if (match) {
+            const raw = parseFloat(match[1]);
+            const bandVal = (mod === 'Listening' || mod === 'Reading') && raw > 9
+              ? (raw >= 39 ? 9.0 : raw >= 37 ? 8.5 : raw >= 35 ? 8.0 : raw >= 32 ? 7.5 : raw >= 30 ? 7.0 : raw >= 26 ? 6.5 : raw >= 23 ? 6.0 : 5.5)
+              : raw;
+            scores[mod].push(bandVal);
           }
+        }
+
+        // Section breakdown
+        if (entry.sections && typeof entry.sections === 'object') {
+          Object.entries(entry.sections).forEach(([secK, secV]) => {
+            const num = parseFloat(secV);
+            if (!isNaN(num) && sectionSums[mod]?.[secK]) {
+              sectionSums[mod][secK].push(num);
+            }
+          });
         }
       });
 
@@ -123,6 +155,7 @@ export default function ModuleMasteryAnalyticsModal({
           const sum = modScores.reduce((a, b) => a + b, 0);
           stats[mod].avgBand = (sum / modScores.length).toFixed(1);
         }
+        stats[mod].sectionAverages = sectionSums[mod];
       });
     }
 
@@ -328,59 +361,72 @@ export default function ModuleMasteryAnalyticsModal({
     }
   ];
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/70 backdrop-blur-md overflow-y-auto animate-fadeIn">
-      <div 
-        className="relative w-full max-w-5xl my-auto bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] text-slate-900 dark:text-white transition-all duration-200"
-        role="dialog"
-        aria-modal="true"
-      >
-        {/* ========================================================= */}
-        {/* TOP MODAL HEADER */}
-        {/* ========================================================= */}
-        <div className="px-6 py-5 border-b border-slate-200/80 dark:border-slate-800/90 bg-gradient-to-r from-slate-50 via-white to-indigo-50/40 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-indigo-700 flex items-center justify-center text-white shadow-lg shadow-indigo-600/25 ring-2 ring-indigo-500/20">
-              <BarChart3 className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg sm:text-xl font-black font-bengali tracking-tight text-slate-900 dark:text-white">
-                  মডিউল প্রস্তুতি ও সম্পন্ন কাজের হিসাব
-                </h2>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-                  Live Sync
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
-                কোন পার্টে কতটুকু অগ্রগতি হয়েছে এবং বিস্তারিত সম্পন্ন টাস্কের লগ
-              </p>
-            </div>
+  if (!isOpen && !isPageView) return null;
+
+  const contentMarkup = (
+    <div 
+      className={`relative w-full ${isPageView ? 'bg-white dark:bg-[#0F172A] border border-slate-200/90 dark:border-slate-800 rounded-3xl shadow-sm' : 'max-w-5xl my-auto bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl max-h-[92vh]'} overflow-hidden flex flex-col text-slate-900 dark:text-white transition-all duration-200`}
+      role="dialog"
+      aria-modal="true"
+    >
+      {/* ========================================================= */}
+      {/* TOP HEADER */}
+      {/* ========================================================= */}
+      <div className="px-6 py-5 border-b border-slate-200/80 dark:border-slate-800/90 bg-gradient-to-r from-slate-50 via-white to-indigo-50/40 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950/40 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          {isPageView && onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              className="p-2.5 rounded-2xl bg-slate-100/90 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-all duration-200 active:scale-90 hover:scale-105 cursor-pointer shadow-xs border border-slate-200/80 dark:border-slate-700/80 shrink-0 mr-1"
+              title="রুটিনে ফিরে যান"
+              aria-label="রুটিনে ফিরে যান"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+          )}
+
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-indigo-700 flex items-center justify-center text-white shadow-lg shadow-indigo-600/25 ring-2 ring-indigo-500/20">
+            <BarChart3 className="w-6 h-6" />
           </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg sm:text-xl font-black font-bengali tracking-tight text-slate-900 dark:text-white">
+                মডিউল প্রস্তুতি ও সম্পন্ন কাজের হিসাব
+              </h2>
+              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                Live Sync
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-bengali">
+              কোন পার্টে কতটুকু অগ্রগতি হয়েছে এবং বিস্তারিত সম্পন্ন টাস্কের লগ
+            </p>
+          </div>
+        </div>
 
-          <div className="flex items-center gap-2">
-            {/* Copy Report Button */}
-            <button
-              onClick={handleCopyReport}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold font-bengali transition-colors cursor-pointer"
-              title="রিপোর্ট কপি করুন"
-            >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-              <span className="hidden md:inline">{copied ? 'কপি হয়েছে!' : 'রিপোর্ট কপি'}</span>
-            </button>
+        <div className="flex items-center gap-2">
+          {/* Copy Report Button */}
+          <button
+            onClick={handleCopyReport}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold font-bengali transition-colors cursor-pointer"
+            title="রিপোর্ট কপি করুন"
+          >
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            <span className="hidden md:inline">{copied ? 'কপি হয়েছে!' : 'রিপোর্ট কপি'}</span>
+          </button>
 
-            {/* Print Button */}
-            <button
-              onClick={handlePrint}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold font-bengali transition-colors cursor-pointer"
-              title="প্রিন্ট করুন"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">প্রিন্ট</span>
-            </button>
+          {/* Print Button */}
+          <button
+            onClick={handlePrint}
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold font-bengali transition-colors cursor-pointer"
+            title="প্রিন্ট করুন"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span className="hidden md:inline">প্রিন্ট</span>
+          </button>
 
-            {/* Close Modal Button */}
+          {!isPageView && onClose && (
             <button
               onClick={onClose}
               className="p-2 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer"
@@ -388,8 +434,9 @@ export default function ModuleMasteryAnalyticsModal({
             >
               <X className="w-5 h-5" />
             </button>
-          </div>
+          )}
         </div>
+      </div>
 
         {/* ========================================================= */}
         {/* NAVIGATION TABS */}
@@ -984,7 +1031,7 @@ export default function ModuleMasteryAnalyticsModal({
         </div>
 
         {/* ========================================================= */}
-        {/* MODAL FOOTER */}
+        {/* FOOTER */}
         {/* ========================================================= */}
         <div className="px-6 py-4 border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-bengali">
@@ -993,14 +1040,23 @@ export default function ModuleMasteryAnalyticsModal({
           </div>
 
           <button
-            onClick={onClose}
+            onClick={isPageView ? onBack : onClose}
             className="px-5 py-2 rounded-xl bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-500 text-white text-xs font-bold font-bengali shadow-md transition-all active:scale-95 cursor-pointer"
           >
-            বন্ধ করুন
+            {isPageView ? 'রুটিনে ফিরে যান' : 'বন্ধ করুন'}
           </button>
         </div>
 
       </div>
+  );
+
+  if (isPageView) {
+    return contentMarkup;
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/70 backdrop-blur-md overflow-y-auto animate-fadeIn">
+      {contentMarkup}
     </div>
   );
 }
