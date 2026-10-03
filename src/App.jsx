@@ -10,6 +10,7 @@ import NightSlotReview from './components/NightSlotReview';
 import CambridgeMasterTracker from './components/CambridgeMasterTracker';
 import MistakeLogDiary from './components/MistakeLogDiary';
 import IeltsVocabVault from './components/IeltsVocabVault';
+import ModuleMasteryAnalyticsModal from './components/ModuleMasteryAnalyticsModal';
 import FloatingQuickActionDock from './components/FloatingQuickActionDock';
 import { 
   Sun, 
@@ -23,7 +24,8 @@ import {
   CheckCircle2,
   BookOpen,
   BookMarked,
-  Zap
+  Zap,
+  BarChart3
 } from 'lucide-react';
 
 const DEFAULT_TARGET_SETTINGS = {
@@ -85,10 +87,11 @@ export default function App() {
     }
   });
 
-  // Modal states for Cambridge Master Tracker, Mistake Log Diary, and Vocab Vault
+  // Modal states for Cambridge Master Tracker, Mistake Log Diary, Vocab Vault, and Module Mastery Analytics
   const [isCambridgeTrackerOpen, setIsCambridgeTrackerOpen] = useState(false);
   const [isMistakeDiaryOpen, setIsMistakeDiaryOpen] = useState(false);
   const [isVocabVaultOpen, setIsVocabVaultOpen] = useState(false);
+  const [isMasteryAnalyticsOpen, setIsMasteryAnalyticsOpen] = useState(false);
 
   // 2. Active Day tracker
   const [currentDay, setCurrentDay] = useState(() => {
@@ -253,6 +256,7 @@ export default function App() {
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 dark:bg-[#0B0F19] dark:text-slate-100 flex flex-col selection:bg-indigo-100 selection:text-indigo-900 dark:selection:bg-indigo-950 dark:selection:text-indigo-200 relative transition-colors duration-200">
       {/* Floating Quick Action Dock on the Left */}
       <FloatingQuickActionDock
+        onOpenMasteryAnalytics={() => setIsMasteryAnalyticsOpen(true)}
         onOpenVocabVault={() => setIsVocabVaultOpen(true)}
         onOpenCambridgeTracker={() => setIsCambridgeTrackerOpen(true)}
         onOpenMistakeDiary={() => setIsMistakeDiaryOpen(true)}
@@ -267,6 +271,7 @@ export default function App() {
       <Header
         targetSettings={targetSettings}
         onOpenSettings={() => setIsSetupModalOpen(true)}
+        onOpenMasteryAnalytics={() => setIsMasteryAnalyticsOpen(true)}
         onOpenCambridgeTracker={() => setIsCambridgeTrackerOpen(true)}
         onOpenMistakeDiary={() => setIsMistakeDiaryOpen(true)}
         isDarkMode={isDarkMode}
@@ -292,11 +297,19 @@ export default function App() {
             
             <div className="flex items-center gap-2 flex-wrap sm:nowrap">
               <button
-                onClick={() => setIsVocabVaultOpen(true)}
+                onClick={() => setIsMasteryAnalyticsOpen(true)}
                 className="text-xs text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-indigo-200 flex items-center gap-1.5 font-bengali font-bold transition-colors px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200/80 dark:border-indigo-800 shadow-2xs active:scale-95"
               >
-                <Zap className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                <span>ভোকাবুলারি ব্যাংক</span>
+                <BarChart3 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                <span>কাজের হিসাব ও প্রস্তুতি</span>
+              </button>
+
+              <button
+                onClick={() => setIsVocabVaultOpen(true)}
+                className="text-xs text-amber-700 dark:text-amber-300 hover:text-amber-900 dark:hover:text-amber-200 flex items-center gap-1.5 font-bengali font-bold transition-colors px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200/80 dark:border-amber-800 shadow-2xs active:scale-95"
+              >
+                <Zap className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                <span>ভোকাব ব্যাংক</span>
               </button>
 
               <button
@@ -320,7 +333,7 @@ export default function App() {
                 className="text-xs text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 flex items-center gap-1.5 font-bengali font-semibold transition-colors px-2.5 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-2xs"
               >
                 <Sliders className="w-3.5 h-3.5" />
-                টার্গেট পরিবর্তন
+                টার্গেট
               </button>
             </div>
           </div>
@@ -709,6 +722,16 @@ export default function App() {
       <IeltsVocabVault
         isOpen={isVocabVaultOpen}
         onClose={() => setIsVocabVaultOpen(false)}
+      />
+
+      {/* Module Mastery & Completed Task Analytics Modal */}
+      <ModuleMasteryAnalyticsModal
+        isOpen={isMasteryAnalyticsOpen}
+        onClose={() => setIsMasteryAnalyticsOpen(false)}
+        tasksByDay={tasksByDay}
+        targetSettings={targetSettings}
+        currentDay={currentDay}
+        streak={streak}
       />
 
       {/* Target Setup Modal */}

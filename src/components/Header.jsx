@@ -1,11 +1,12 @@
 import React from 'react';
-import { Target, Flame, Settings, Calendar, BookOpen, Sparkles, Sun, Moon } from 'lucide-react';
+import { Target, Flame, Settings, Calendar, BookOpen, Sparkles, Sun, Moon, BarChart3 } from 'lucide-react';
 
 export default function Header({ 
   targetSettings, 
   onOpenSettings, 
   onOpenCambridgeTracker,
   onOpenMistakeDiary,
+  onOpenMasteryAnalytics,
   isDarkMode,
   onToggleDarkMode,
   streak = 1, 
@@ -55,7 +56,7 @@ export default function Header({
           <div className="flex items-center gap-2 sm:gap-2.5">
             
             {/* Target Band Pill */}
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-xs font-medium text-slate-700 dark:text-slate-200">
+            <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-xs font-medium text-slate-700 dark:text-slate-200">
               <Target className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>Target: <strong className="text-slate-900 dark:text-white font-semibold font-mono">Band {targetSettings.targetBand}</strong></span>
             </div>
@@ -75,6 +76,17 @@ export default function Header({
               <span className="text-amber-700 dark:text-amber-400 font-bengali text-[11px] hidden sm:inline">দিন স্ট্রিক</span>
             </div>
 
+            {/* Module Preparation Analytics & Completed Task Count Button */}
+            <button
+              type="button"
+              onClick={onOpenMasteryAnalytics}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800/60 text-xs font-semibold font-bengali transition-all duration-200 active:scale-95 cursor-pointer shadow-xs"
+              title="মডিউল প্রস্তুতি ও সম্পন্ন কাজের হিসাব"
+            >
+              <BarChart3 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+              <span className="font-bengali">কাজের হিসাব</span>
+            </button>
+
             {/* Dark / Light Theme Mode Toggle Button */}
             <button
               type="button"
@@ -92,7 +104,7 @@ export default function Header({
               className="relative group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-slate-900 dark:bg-indigo-600 hover:bg-indigo-600 dark:hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-slate-900/10 hover:shadow-indigo-600/25 transition-all duration-200 active:scale-95 cursor-pointer"
             >
               <Settings className="w-3.5 h-3.5 text-slate-300 group-hover:text-white transition-colors group-hover:rotate-45 duration-300" />
-              <span className="font-bengali hidden sm:inline">টার্গেট সেটিংস</span>
+              <span className="font-bengali hidden md:inline">টার্গেট</span>
             </button>
           </div>
 

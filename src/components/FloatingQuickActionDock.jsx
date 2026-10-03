@@ -12,13 +12,15 @@ import {
   Layers,
   ChevronRight,
   Menu,
-  X
+  X,
+  BarChart3
 } from 'lucide-react';
 
 export default function FloatingQuickActionDock({
   onOpenVocabVault,
   onOpenCambridgeTracker,
   onOpenMistakeDiary,
+  onOpenMasteryAnalytics,
   onOpenSettings,
   isDarkMode,
   onToggleDarkMode,
@@ -42,11 +44,19 @@ export default function FloatingQuickActionDock({
 
   const dockActions = [
     {
+      id: 'analytics',
+      name: 'কাজের হিসাব ও প্রস্তুতি',
+      sub: 'Module Progress & Tasks',
+      icon: BarChart3,
+      color: 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white border-indigo-200/80 dark:border-indigo-800/80',
+      action: onOpenMasteryAnalytics
+    },
+    {
       id: 'vocab',
       name: 'ভোকাবুলারি ব্যাংক',
       sub: 'Band 8.0+ Flashcards',
       icon: Zap,
-      color: 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 dark:hover:text-white border-indigo-200/80 dark:border-indigo-800/80',
+      color: 'bg-amber-50 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400 hover:bg-amber-600 hover:text-white dark:hover:bg-amber-600 dark:hover:text-white border-amber-200/80 dark:border-amber-800/80',
       action: onOpenVocabVault
     },
     {
