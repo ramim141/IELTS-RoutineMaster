@@ -8,10 +8,15 @@ import {
   Sparkles, 
   CheckCircle2,
   TrendingUp,
-  AlertCircle
+  AlertCircle,
+  BarChart3
 } from 'lucide-react';
 
-export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSettings }) {
+export default function DailyTimeBreakdownChart({ 
+  dailyTasks = [], 
+  targetSettings,
+  onOpenMasteryAnalytics 
+}) {
   const dailyHoursGoal = targetSettings?.dailyHoursGoal || 4;
   const goalMinutes = dailyHoursGoal * 60;
 
@@ -125,9 +130,20 @@ export default function DailyTimeBreakdownChart({ dailyTasks = [], targetSetting
           </div>
         </div>
 
-        {/* Goal Status Badge */}
-        <div className="flex items-center gap-2 self-start sm:self-auto">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-700 dark:text-slate-200 shadow-xs">
+        {/* Goal Status Badge & Analytics Trigger */}
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          {onOpenMasteryAnalytics && (
+            <button
+              type="button"
+              onClick={onOpenMasteryAnalytics}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold font-bengali shadow-xs transition-all active:scale-95 cursor-pointer"
+            >
+              <BarChart3 className="w-3.5 h-3.5" />
+              <span>📊 সম্পন্ন কাজের হিসাব ও প্রস্তুতি</span>
+            </button>
+          )}
+
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-700 dark:text-slate-200 shadow-xs">
             <TrendingUp className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
             <span>{totalHours}h / {dailyHoursGoal}h Goal ({goalPercent}%)</span>
           </div>

@@ -353,6 +353,7 @@ export default function App() {
           <DailyTimeBreakdownChart
             dailyTasks={currentDailyTasks}
             targetSettings={targetSettings}
+            onOpenMasteryAnalytics={() => setIsMasteryAnalyticsOpen(true)}
           />
         </section>
 
